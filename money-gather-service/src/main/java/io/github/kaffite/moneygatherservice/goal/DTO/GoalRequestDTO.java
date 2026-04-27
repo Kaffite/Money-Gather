@@ -1,27 +1,18 @@
 package io.github.kaffite.moneygatherservice.goal.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class GoalRequestDTO {
-    private int goal;
+
+     private int goal;
+
     private int saved;
 
     public GoalRequestDTO(int goal, int saved) {
         this.goal = goal;
-        this.saved = saved;
-    }
-
-    public int getGoal() {
-        return goal;
-    }
-
-    public int getSaved() {
-        return saved;
-    }
-
-    public void setGoal(int goal) {
-        this.goal = goal;
-    }
-
-    public void setSaved(int saved) {
         this.saved = saved;
     }
 

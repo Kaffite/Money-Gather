@@ -18,13 +18,15 @@ public class GoalController {
         this.service = service;
     }
 
-    @PostMapping("/goals")
-    public GoalResponseDTO saveGoal(@RequestBody GoalRequestDTO requestDTO){
-        return service.saveGoal(requestDTO);
-    }
 
     @GetMapping("/goals")
     public List<GoalResponseDTO> getAllGoals(){
         return service.getAllGoals();
     }
+
+    @PostMapping("/goals")
+    public GoalResponseDTO saveGoal(@RequestBody GoalRequestDTO requestDTO){
+        return service.saveGoal(requestDTO);
+    }
+
 }

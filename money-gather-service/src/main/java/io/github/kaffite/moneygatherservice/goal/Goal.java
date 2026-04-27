@@ -1,15 +1,15 @@
 package io.github.kaffite.moneygatherservice.goal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Goal {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_seq")
+    @SequenceGenerator(name = "invoice_seq", sequenceName = "invoice_sequence", allocationSize = 1)
     private Long id;
 
     private int goal;
@@ -21,18 +21,6 @@ public class Goal {
     public Goal(int goal, int saved) {
         this.goal = goal;
         this.saved = saved;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public int getGoal() {
-        return goal;
-    }
-
-    public int getSaved() {
-        return saved;
     }
 
     @Override
