@@ -1,10 +1,16 @@
 
-import {type BudgetItem} from "../types/GoalItem.tsx";
+import {type GoalItem} from "./types/GoalItem.tsx";
 
-function Goal(props: BudgetItem) {
-    return(
-        <h1>Currently: {props.saved} /  {props.goal} </h1>
-    );
+type GoalProps = {
+    goals: GoalItem[]
+}
+function Goal({goals}: GoalProps) {
+
+    const goalList = goals.map((goal, i) =>
+            <h1 key={i}>{goal.description}: {goal.saved}/ {goal.goal}</h1>)
+
+    return(goalList);
+
 }
 
 export default Goal;

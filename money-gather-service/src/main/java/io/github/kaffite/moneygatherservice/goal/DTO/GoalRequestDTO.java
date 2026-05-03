@@ -1,26 +1,17 @@
 package io.github.kaffite.moneygatherservice.goal.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+
 public class GoalRequestDTO {
 
-     private int goal;
-
+    private String description;
+    private int goal;
     private int saved;
 
-    public GoalRequestDTO(int goal, int saved) {
-        this.goal = goal;
-        this.saved = saved;
-    }
-
-    @Override
-    public String toString() {
-        return "GoalRequestDTO{" +
-                "goal=" + goal +
-                ", saved=" + saved +
-                '}';
-    }
 }

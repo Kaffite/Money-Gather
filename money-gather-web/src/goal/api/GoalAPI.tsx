@@ -1,8 +1,8 @@
 
 import {type GoalItem} from "../types/GoalItem.tsx";
 
-async function fetchBudget(): Promise<GoalItem[]>{
-    const response = await fetch("/data/budget.json");
+async function fetchGoals(): Promise<GoalItem[]>{
+    const response = await fetch("http://localhost:8080/goals");
     if (!response.ok){
         throw new Error("Fetching budget data failed!!")
     }
@@ -10,4 +10,4 @@ async function fetchBudget(): Promise<GoalItem[]>{
     return data;
 }
 
-export {fetchBudget};
+export {fetchGoals};

@@ -19,13 +19,13 @@ public class GoalService {
         List<Goal> entities = repository.findAll();
         List<GoalResponseDTO> result =
                 entities.stream()
-                .map(e -> new GoalResponseDTO(e.getId(), e.getGoal(), e.getSaved()))
+                .map(e -> new GoalResponseDTO(e.getId(), e.getDescription(), e.getGoal(), e.getSaved()))
                 .collect(Collectors.toList());
         return result;
     }
 
     public GoalResponseDTO saveGoal(GoalRequestDTO requestDTO) {
-        Goal goal = repository.save(new Goal(requestDTO.getGoal(), requestDTO.getSaved()));
-        return new GoalResponseDTO(goal.getId(),goal.getGoal(), goal.getSaved());
+        Goal goal = repository.save(new Goal(requestDTO.getDescription(), requestDTO.getGoal(), requestDTO.getSaved()));
+        return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getGoal(), goal.getSaved());
     }
 }
