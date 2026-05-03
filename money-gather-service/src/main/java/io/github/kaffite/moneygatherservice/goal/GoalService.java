@@ -19,13 +19,20 @@ public class GoalService {
         List<Goal> entities = repository.findAll();
         List<GoalResponseDTO> result =
                 entities.stream()
-                .map(e -> new GoalResponseDTO(e.getId(), e.getDescription(), e.getGoal(), e.getSaved()))
+                    .map(e -> new GoalResponseDTO(e.getId(), e.getDescription(), e.getSaved(), e.getTarget()))
                 .collect(Collectors.toList());
         return result;
     }
 
     public GoalResponseDTO saveGoal(GoalRequestDTO requestDTO) {
-        Goal goal = repository.save(new Goal(requestDTO.getDescription(), requestDTO.getGoal(), requestDTO.getSaved()));
-        return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getGoal(), goal.getSaved());
+        Goal goal = repository.save(new Goal(requestDTO.getDescription(), requestDTO.getSaved(), requestDTO.getTarget()));
+        return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getSaved(), goal.getTarget());
     }
+
+//    public GoalResponseDTO editGoal(GoalRequestDTO requestDTO, Long id) {
+//        Optional<Goal> goal = repository.findById(id);
+//        // TODO: Better response if not found
+//        if (!goal.isPresent()) return null;
+//
+//    }
 }
