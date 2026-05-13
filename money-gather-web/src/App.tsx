@@ -1,4 +1,5 @@
 import GoalController from "./goal/GoalController.tsx";
+import "./index.css"
 
 function App(){
     return(

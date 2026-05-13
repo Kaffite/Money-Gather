@@ -15,7 +15,6 @@ function BudgetController(){
 
     return (
         <>
-            <h1>Goals</h1>
             <Goal goals={goals}/>
         </>
     );

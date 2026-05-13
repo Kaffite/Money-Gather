@@ -1,0 +1,24 @@
+
+h2{
+    color: #90e0ef;
+}
+
+h1{
+    text-align: center;
+    color: dodgerblue;
+}
+
+input{
+    border: none;
+    font-size: 18px;
+    padding: 10px 0px;
+    margin: 5px 0px 0px 5px;
+    border-radius: 10px;
+    text-align: center;
+    width: 120px;
+    background: #CAF0F8;
+}
+
+input:hover{
+    background: #87cefa;
+}
