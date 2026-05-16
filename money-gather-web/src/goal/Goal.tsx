@@ -1,6 +1,4 @@
-import {Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {type GoalItem} from "./types/GoalItem.tsx";
 import {useState} from "react";
 import {Doughnut} from "react-chartjs-2";
@@ -20,10 +18,10 @@ function Goal({goals}:GoalProps) {
     function handleSavedChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
         const valueStr:string = e.target.value;
         const valueNr:number = Number(valueStr);
-        const typeNr:boolean = !Number.isNaN(valueNr);
+        const valueIsNr:boolean = !Number.isNaN(valueNr);
         setSaved(saved.map(
             (item, i) =>
-                i == index && typeNr
+                i == index && valueIsNr
                     ? valueStr
                     : item
         ));
@@ -55,35 +53,50 @@ function Goal({goals}:GoalProps) {
         const currentlySaved = Number(saved[i]);
         const remaining = Number(target[i]) - currentlySaved;
         return {
-            labels: ["Saved already", "Remaining amount"],
+            labels: ["Saved        amount", "Remaining amount"],
                 datasets: [{
             data: [currentlySaved, remaining],
-            backgroundColor: ['#45e63a' , '#000000']
+            backgroundColor: ['#45e63a' , '#ffffff'],
+            borderColor: '#1e1e1e'
             }]
         };
     }
 
 
-
-
     const goalList = goals.map((_, i) =>
-        <h2 key={i}>
-            Goal:
-            <input value={description[i]} onChange={event => handleDescChange(i, event)}/>
-            <br/>
-            <input value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
-            <input value={target[i]} onChange={event => handleTargetChange(i, event)} /> €
+            <div className={"goalDiv"}>
+                <div className="goalDoughnutDiv">
+                    <Doughnut key={i} data={getDoughnutData(i)}/>
+                </div>
+                <div>
+                    <button className={"goal_action goalBtn"}>Edit </button>
+                    <button className={"goal_action goalBtn deleteBtn"}>Delete</button>
+                </div>
+                <div className={"goalInputDiv"}>
+                    <input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
+                    {/*<h3> {(saved[i])} / {target[i]} € </h3>*/}
+                    <input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €
+                </div>
+            </div>
 
-            </h2>)
+
+);
+
+    // const goalList = goals.map((_, i) =>
+    //     <h2 key={i}>
+    //         Goal:
+    //         <input value={description[i]} onChange={event => handleDescChange(i, event)}/>
+    //         <br/>
+    //         <input value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
+    //         <input value={target[i]} onChange={event => handleTargetChange(i, event)} /> €
+    //     </h2>)
 
     return(
         <>
             <h1>Your Goals</h1>
+            <div className={"goalGroupDiv"}>
             {goalList}
-            <div className="doughnutDiv">
-                {goals.map((_, i) =>
-                    <Doughnut key={i} data={getDoughnutData(i)}/>
-                )}
+            {/*<button>Add a new goal </button>*/}
             </div>
         </>
     );

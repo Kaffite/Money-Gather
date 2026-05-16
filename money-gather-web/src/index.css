@@ -9,13 +9,12 @@ h1{
 }
 
 input{
-    border: none;
-    font-size: 18px;
-    padding: 10px 0px;
-    margin: 5px 0px 0px 5px;
-    border-radius: 10px;
     text-align: center;
-    width: 120px;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 10px;
     background: #CAF0F8;
 }
 
@@ -23,9 +22,40 @@ input:hover{
     background: #87cefa;
 }
 
-.doughnutDiv{
+.goalGroupDiv{
     display: flex;
-    width: 200px;
-    height: 200px;
+    flex-direction: row;
+}
 
+.goalDiv{
+    display: flex;
+    flex-direction: column;
+    margin-right: 40px;
+}
+
+
+.goalDoughnutDiv{
+    width: 200px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.goalInputDiv{
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    padding: 10px 5px;
+    /*margin: 5px 0px 0px 10px;*/
+}
+
+.goal_action{
+    width: 100px;
+}
+
+.goalBtn {
+    margin: 15px 10px 10px 10px;
+}
+
+.deleteBtn{
+    background-color: #ed332d;
 }

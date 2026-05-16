@@ -13,11 +13,7 @@ function BudgetController(){
 
     if (goals.length < 1) return <h1>Loading...</h1>
 
-    return (
-        <>
-            <Goal goals={goals}/>
-        </>
-    );
+    return (<Goal goals={goals}/>);
 }
 
 export default BudgetController;
