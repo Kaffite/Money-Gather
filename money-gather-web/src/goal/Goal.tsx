@@ -11,42 +11,38 @@ function Goal({goals}:GoalProps) {
     const [saved, setSaved] = useState<string[]>(goals.map(goal => String(goal.saved)));
     const [target, setTarget] = useState<string[]>(goals.map(goal => String(goal.target)));
     const [description, setDescription] = useState<string[]>(goals.map(goal => goal.description));
+    const [editMode, setEditMode] = useState<boolean[]>(Array(goals.length).fill(false));
+
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
-    // TODO: Add limit -> current can't be higher than goal?
+    // TODO: Make limiting max value more user-friendly
     function handleSavedChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
-        const valueStr:string = e.target.value;
-        const valueNr:number = Number(valueStr);
-        const valueIsNr:boolean = !Number.isNaN(valueNr);
-        setSaved(saved.map(
-            (item, i) =>
-                i == index && valueIsNr
-                    ? valueStr
-                    : item
-        ));
+        const value:string = e.target.value;
+        const valueNr:number = Number(e.target.value);
+        const typeIsNr:boolean = !Number.isNaN(valueNr);
+        if (typeIsNr && valueNr <= Number(target[index])) {
+            const updated = [...saved];
+            updated[index] = value;
+            setSaved(updated);
+        }
     };
 
     function handleTargetChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
-        const valueStr:string = e.target.value;
-        const valueNr:number = Number(valueStr);
-        const typeNr:boolean = !Number.isNaN(valueNr);
-        setTarget(target.map(
-            (item, i) =>
-                i == index && typeNr
-                    ? valueStr
-                    : item
-        ));
+        const value:string = e.target.value;
+        const valueNr:number = Number(e.target.value);
+        const typeIsNr:boolean = !Number.isNaN(valueNr);
+        if (typeIsNr) {
+            const updated = [...target];
+            updated[index] = value;
+            setTarget(updated);
+        }
     };
 
     function handleDescChange(index:number, e:React.ChangeEvent<HTMLInputElement>) {
-        const value:string = e.target.value;
-        setDescription(description.map(
-            (item, i) =>
-                i == index
-                    ? value
-                    : item
-        ));
+        const updated = [...description];
+        updated[index] = e.target.value;
+        setDescription(updated);
     }
 
     const getDoughnutData = (i:number) => {
@@ -62,34 +58,42 @@ function Goal({goals}:GoalProps) {
         };
     }
 
+    const changeEditMode = (i:number) => {
+        const updated = [...editMode];
+        updated[i] = !updated[i];
+        setEditMode(updated);
+    }
+
 
     const goalList = goals.map((_, i) =>
             <div className={"goalDiv"}>
                 <div className="goalDoughnutDiv">
                     <Doughnut key={i} data={getDoughnutData(i)}/>
                 </div>
-                <div>
-                    <button className={"goal_action goalBtn"}>Edit </button>
+
+                <div className={"goalBtnDiv"}>
+                    <button className={"goal_action goalBtn"} onClick={(e) => changeEditMode(i)}>
+                        {editMode[i] ? "Save changes" : "Edit"}
+                    </button>
                     <button className={"goal_action goalBtn deleteBtn"}>Delete</button>
                 </div>
                 <div className={"goalInputDiv"}>
-                    <input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
+                    {editMode[i]
+                        ? (<>
+                                <input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
+                                <input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €)
+                            </>)
+                        : (<h3> {(saved[i])} / {target[i]} € </h3>)
+                    }
+                    {/*<input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /*/}
                     {/*<h3> {(saved[i])} / {target[i]} € </h3>*/}
-                    <input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €
+                    {/*<input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €*/}
                 </div>
+
             </div>
 
 
 );
-
-    // const goalList = goals.map((_, i) =>
-    //     <h2 key={i}>
-    //         Goal:
-    //         <input value={description[i]} onChange={event => handleDescChange(i, event)}/>
-    //         <br/>
-    //         <input value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
-    //         <input value={target[i]} onChange={event => handleTargetChange(i, event)} /> €
-    //     </h2>)
 
     return(
         <>

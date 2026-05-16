@@ -1,13 +1,10 @@
-
-h2{
-    color: #90e0ef;
-}
-
 h1{
     text-align: center;
     color: dodgerblue;
 }
-
+h2{
+    color: #90e0ef;
+}
 input{
     text-align: center;
     font-size: 18px;
@@ -17,7 +14,6 @@ input{
     border-radius: 10px;
     background: #CAF0F8;
 }
-
 input:hover{
     background: #87cefa;
 }
@@ -30,14 +26,19 @@ input:hover{
 .goalDiv{
     display: flex;
     flex-direction: column;
-    margin-right: 40px;
 }
 
+.goal_action{
+    width: 100px;
+}
 
 .goalDoughnutDiv{
-    width: 200px;
-    margin-left: 20px;
-    margin-top: 10px;
+    width: 300px;
+    margin: 10px 60px 0px 60px;
+}
+
+.goalBtnDiv{
+    margin-left: 95px;
 }
 
 .goalInputDiv{
@@ -45,11 +46,7 @@ input:hover{
     flex-direction: row;
     font-size: 20px;
     padding: 10px 5px;
-    /*margin: 5px 0px 0px 10px;*/
-}
-
-.goal_action{
-    width: 100px;
+    margin-left: 95px;
 }
 
 .goalBtn {
