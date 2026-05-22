@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5173")
 @RestController
 public class GoalController {
 
@@ -15,7 +16,6 @@ public class GoalController {
         this.service = service;
     }
 
-    @CrossOrigin("http://localhost:5173")
     @GetMapping("/goals")
     public List<GoalResponseDTO> getAllGoals(){
         return service.getAllGoals();

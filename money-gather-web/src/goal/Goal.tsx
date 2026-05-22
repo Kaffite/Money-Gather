@@ -1,7 +1,7 @@
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
-import {type GoalItem} from "./types/GoalItem.tsx";
 import {useState} from "react";
 import {Doughnut} from "react-chartjs-2";
+import {type GoalItem} from "./types/GoalItem.tsx";
 
 type GoalProps = {
     goals: GoalItem[]
@@ -9,19 +9,17 @@ type GoalProps = {
 
 function Goal({goals}:GoalProps) {
     const [saved, setSaved] = useState<string[]>(goals.map(goal => String(goal.saved)));
-    const [target, setTarget] = useState<string[]>(goals.map(goal => String(goal.target)));
-    const [description, setDescription] = useState<string[]>(goals.map(goal => goal.description));
+    const [targets, setTargets] = useState<string[]>(goals.map(goal => String(goal.target)));
+    const [descriptions, setDescriptions] = useState<string[]>(goals.map(goal => goal.description));
     const [editMode, setEditMode] = useState<boolean[]>(Array(goals.length).fill(false));
-
-
-    ChartJS.register(ArcElement, Tooltip, Legend);
+    const descLimit:number = 10;
 
     // TODO: Make limiting max value more user-friendly
     function handleSavedChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
         const value:string = e.target.value;
         const valueNr:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(valueNr);
-        if (typeIsNr && valueNr <= Number(target[index])) {
+        if (typeIsNr && valueNr <= Number(targets[index])) {
             const updated = [...saved];
             updated[index] = value;
             setSaved(updated);
@@ -33,44 +31,80 @@ function Goal({goals}:GoalProps) {
         const valueNr:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(valueNr);
         if (typeIsNr) {
-            const updated = [...target];
+            const updated = [...targets];
             updated[index] = value;
-            setTarget(updated);
+            setTargets(updated);
         }
     };
 
+    // TODO: Tell Users that max size is 10 characters
     function handleDescChange(index:number, e:React.ChangeEvent<HTMLInputElement>) {
-        const updated = [...description];
+        if (e.target.value.length > descLimit) return;
+        const updated = [...descriptions];
         updated[index] = e.target.value;
-        setDescription(updated);
+        setDescriptions(updated);
     }
 
-    const getDoughnutData = (i:number) => {
-        const currentlySaved = Number(saved[i]);
-        const remaining = Number(target[i]) - currentlySaved;
-        return {
-            labels: ["Saved        amount", "Remaining amount"],
-                datasets: [{
-            data: [currentlySaved, remaining],
-            backgroundColor: ['#45e63a' , '#ffffff'],
-            borderColor: '#1e1e1e'
-            }]
-        };
-    }
-
-    const changeEditMode = (i:number) => {
+    function changeEditMode (i:number) {
         const updated = [...editMode];
         updated[i] = !updated[i];
         setEditMode(updated);
     }
 
+    // Global Chart plugins
+    ChartJS.register(ArcElement, Tooltip, Legend);
+
+    const centerTextPlugin = {
+        id: "centerTextPlugin",
+        beforeDraw: function (chart, args, options) {
+            const width = chart.width,
+                height = chart.height,
+                ctx = chart.ctx;
+            ctx.restore();
+            const fontSize = (height / 230).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+            const text = options.text,
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 1.75;
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+       }
+    }
+
+    // Data of Doughnut Charts
+    function getDoughnutData (i:number) {
+        const currentlySaved = Number(saved[i]);
+        const remaining = Number(targets[i]) - currentlySaved;
+        return {
+            labels: ["Saved amount", "Remaining amount"],
+            datasets: [{
+                data: [currentlySaved, remaining],
+                backgroundColor: ['#45e63a' , '#ffffff'],
+                borderColor: '#1e1e1e'
+            }],
+        }
+    }
+
+
+
 
     const goalList = goals.map((_, i) =>
             <div className={"goalDiv"}>
                 <div className="goalDoughnutDiv">
-                    <Doughnut key={i} data={getDoughnutData(i)}/>
+                    <Doughnut
+                        key={i}
+                        data={getDoughnutData(i)}
+                        options={{
+                            plugins: {
+                                centerTextPlugin: {
+                                    text: descriptions[i]
+                                }
+                            }
+                        }}
+                        plugins={[centerTextPlugin]}
+                        />
                 </div>
-
                 <div className={"goalBtnDiv"}>
                     <button className={"goal_action goalBtn"} onClick={(e) => changeEditMode(i)}>
                         {editMode[i] ? "Save changes" : "Edit"}
@@ -80,14 +114,15 @@ function Goal({goals}:GoalProps) {
                 <div className={"goalInputDiv"}>
                     {editMode[i]
                         ? (<>
-                                <input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /
-                                <input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €)
+                                <input className={"goal_action"} value={(saved[i])} placeholder={"Saved"} onChange={event => handleSavedChange(i, event)}/> /
+                                <input className={"goal_action"} value={targets[i]} placeholder={"Target"} onChange={event => handleTargetChange(i, event)} /> €)
                             </>)
-                        : (<h3> {(saved[i])} / {target[i]} € </h3>)
+                        : (<>
+                            <h3> {(saved[i])} / {targets[i]}€  </h3>
+                            <h3> ({Number(saved[i]) / Number(targets[i]) * 100}%)</h3>
+
+                        </>)
                     }
-                    {/*<input className={"goal_action"} value={(saved[i])} onChange={event => handleSavedChange(i, event)}/> /*/}
-                    {/*<h3> {(saved[i])} / {target[i]} € </h3>*/}
-                    {/*<input className={"goal_action"} value={target[i]} onChange={event => handleTargetChange(i, event)} /> €*/}
                 </div>
 
             </div>
@@ -100,7 +135,6 @@ function Goal({goals}:GoalProps) {
             <h1>Your Goals</h1>
             <div className={"goalGroupDiv"}>
             {goalList}
-            {/*<button>Add a new goal </button>*/}
             </div>
         </>
     );

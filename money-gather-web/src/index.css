@@ -5,6 +5,7 @@ h1{
 h2{
     color: #90e0ef;
 }
+
 input{
     text-align: center;
     font-size: 18px;
@@ -16,6 +17,10 @@ input{
 }
 input:hover{
     background: #87cefa;
+}
+
+.deleteBtn{
+    background-color: #ed332d;
 }
 
 .goalGroupDiv{
@@ -53,6 +58,5 @@ input:hover{
     margin: 15px 10px 10px 10px;
 }
 
-.deleteBtn{
-    background-color: #ed332d;
-}
+
+
