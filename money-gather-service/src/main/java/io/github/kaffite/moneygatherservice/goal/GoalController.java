@@ -19,7 +19,7 @@ public class GoalController {
     @GetMapping("/goals")
     public List<GoalResponseDTO> getAllGoals(){
         return service.getAllGoals();
-    }
+    }   
 
     @PostMapping("/goals")
     public GoalResponseDTO saveGoal(@RequestBody GoalRequestDTO requestDTO){

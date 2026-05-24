@@ -6,15 +6,19 @@ h2{
     color: #90e0ef;
 }
 
+h3 {
+    margin: 0 0 0 10px;
+}
+
 input{
     text-align: center;
     font-size: 18px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px 5px 5px 5px;
     border: none;
     border-radius: 10px;
     background: #CAF0F8;
 }
+
 input:hover{
     background: #87cefa;
 }
@@ -33,8 +37,12 @@ input:hover{
     flex-direction: column;
 }
 
-.goal_action{
+.goal_small_action{
     width: 100px;
+}
+
+.goal_big_action{
+    width: 225px;
 }
 
 .goalDoughnutDiv{

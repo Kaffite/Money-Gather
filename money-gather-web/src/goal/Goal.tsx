@@ -14,12 +14,16 @@ function Goal({goals}:GoalProps) {
     const [editMode, setEditMode] = useState<boolean[]>(Array(goals.length).fill(false));
     const descLimit:number = 10;
 
-    // TODO: Make limiting max value more user-friendly
+
+    // TODO: Notify the users about the limit
     function handleSavedChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
-        const value:string = e.target.value;
+        let value:string = e.target.value;
+
         const valueNr:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(valueNr);
-        if (typeIsNr && valueNr <= Number(targets[index])) {
+
+        if (valueNr > Number(targets[index])) value = targets[index];
+        if (typeIsNr) {
             const updated = [...saved];
             updated[index] = value;
             setSaved(updated);
@@ -51,12 +55,25 @@ function Goal({goals}:GoalProps) {
         setEditMode(updated);
     }
 
+
+
+    //  TODO: Remove goal from DB
+    function deleteGoal(index:number){
+        // Remove i-th element from array
+        setSaved(saved.filter((_, i) => i != index))
+        setTargets(targets.filter((_, i) => i != index))
+        setDescriptions(descriptions.filter((_, i) => i != index))
+        setEditMode(editMode.filter((_, i) => i != index))
+        // Remove visual elements of the goal
+        document.getElementById(`goalDiv${index}`)?.remove()
+    }
+
     // Global Chart plugins
     ChartJS.register(ArcElement, Tooltip, Legend);
 
     const centerTextPlugin = {
         id: "centerTextPlugin",
-        beforeDraw: function (chart, args, options) {
+        beforeDraw: function (chart:ChartJS, _args, options) {
             const width = chart.width,
                 height = chart.height,
                 ctx = chart.ctx;
@@ -80,48 +97,51 @@ function Goal({goals}:GoalProps) {
             labels: ["Saved amount", "Remaining amount"],
             datasets: [{
                 data: [currentlySaved, remaining],
-                backgroundColor: ['#45e63a' , '#ffffff'],
+                backgroundColor: ['#63e4e1' , '#ffffff'],
                 borderColor: '#1e1e1e'
             }],
         }
     }
 
-
+    const doughnut = ((i:number) => {
+        return(<Doughnut
+            key={i}
+            data={getDoughnutData(i)}
+            options={{
+                plugins: {
+                    centerTextPlugin: {
+                        text: descriptions[i]
+                    }
+                }
+            }}
+            plugins={[centerTextPlugin]}
+            />
+        )
+    })
 
 
     const goalList = goals.map((_, i) =>
-            <div className={"goalDiv"}>
+        <div className={"goalDiv"} id={`goalDiv${i}`}>
                 <div className="goalDoughnutDiv">
-                    <Doughnut
-                        key={i}
-                        data={getDoughnutData(i)}
-                        options={{
-                            plugins: {
-                                centerTextPlugin: {
-                                    text: descriptions[i]
-                                }
-                            }
-                        }}
-                        plugins={[centerTextPlugin]}
-                        />
+                    {doughnut(i)}
                 </div>
                 <div className={"goalBtnDiv"}>
-                    <button className={"goal_action goalBtn"} onClick={(e) => changeEditMode(i)}>
+                    <button className={"goal_small_action goalBtn"} onClick={event => changeEditMode(i)}>
                         {editMode[i] ? "Save changes" : "Edit"}
                     </button>
-                    <button className={"goal_action goalBtn deleteBtn"}>Delete</button>
+                    <button className={"goal_small_action goalBtn deleteBtn"} onClick={event => deleteGoal(i)}>Delete</button>
                 </div>
                 <div className={"goalInputDiv"}>
                     {editMode[i]
-                        ? (<>
-                                <input className={"goal_action"} value={(saved[i])} placeholder={"Saved"} onChange={event => handleSavedChange(i, event)}/> /
-                                <input className={"goal_action"} value={targets[i]} placeholder={"Target"} onChange={event => handleTargetChange(i, event)} /> €)
-                            </>)
-                        : (<>
+                        ?   (<div>
+                                <input className={"goal_small_action"} value={(saved[i])} placeholder={"Saved"} onChange={event => handleSavedChange(i, event)}/> /
+                                <input className={"goal_small_action"} value={targets[i]} placeholder={"Target"} onChange={event => handleTargetChange(i, event)} /> €
+                                <input className={"goal_big_action"} value={descriptions[i]} placeholder={`Name (max ${descLimit} symbols)`} onChange={event => handleDescChange(i, event)} ></input>
+                            </div>)
+                        :   (<>
                             <h3> {(saved[i])} / {targets[i]}€  </h3>
-                            <h3> ({Number(saved[i]) / Number(targets[i]) * 100}%)</h3>
-
-                        </>)
+                            <h3> ({Math.round(Number(saved[i]) / Number(targets[i]) * 100)}%)</h3>
+                            </>)
                     }
                 </div>
 
@@ -134,7 +154,7 @@ function Goal({goals}:GoalProps) {
         <>
             <h1>Your Goals</h1>
             <div className={"goalGroupDiv"}>
-            {goalList}
+                {goalList}
             </div>
         </>
     );
