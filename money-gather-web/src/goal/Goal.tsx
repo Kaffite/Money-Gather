@@ -1,7 +1,6 @@
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {useState} from "react";
-import {Doughnut} from "react-chartjs-2";
 import {type GoalItem} from "./types/GoalItem.tsx";
+import GoalChart from "./GoalChart.tsx";
 
 type GoalProps = {
     goals: GoalItem[]
@@ -28,7 +27,7 @@ function Goal({goals}:GoalProps) {
             updated[index] = value;
             setSaved(updated);
         }
-    };
+    }
 
     function handleTargetChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
         const value:string = e.target.value;
@@ -39,7 +38,7 @@ function Goal({goals}:GoalProps) {
             updated[index] = value;
             setTargets(updated);
         }
-    };
+    }
 
     // TODO: Tell Users that max size is 10 characters
     function handleDescChange(index:number, e:React.ChangeEvent<HTMLInputElement>) {
@@ -56,7 +55,6 @@ function Goal({goals}:GoalProps) {
     }
 
 
-
     //  TODO: Remove goal from DB
     function deleteGoal(index:number){
         // Remove i-th element from array
@@ -68,63 +66,9 @@ function Goal({goals}:GoalProps) {
         document.getElementById(`goalDiv${index}`)?.remove()
     }
 
-    // Global Chart plugins
-    ChartJS.register(ArcElement, Tooltip, Legend);
-
-    const centerTextPlugin = {
-        id: "centerTextPlugin",
-        beforeDraw: function (chart:ChartJS, _args, options) {
-            const width = chart.width,
-                height = chart.height,
-                ctx = chart.ctx;
-            ctx.restore();
-            const fontSize = (height / 230).toFixed(2);
-            ctx.font = fontSize + "em sans-serif";
-            ctx.textBaseline = "middle";
-            const text = options.text,
-                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 1.75;
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-       }
-    }
-
-    // Data of Doughnut Charts
-    function getDoughnutData (i:number) {
-        const currentlySaved = Number(saved[i]);
-        const remaining = Number(targets[i]) - currentlySaved;
-        return {
-            labels: ["Saved amount", "Remaining amount"],
-            datasets: [{
-                data: [currentlySaved, remaining],
-                backgroundColor: ['#63e4e1' , '#ffffff'],
-                borderColor: '#1e1e1e'
-            }],
-        }
-    }
-
-    const doughnut = ((i:number) => {
-        return(<Doughnut
-            key={i}
-            data={getDoughnutData(i)}
-            options={{
-                plugins: {
-                    centerTextPlugin: {
-                        text: descriptions[i]
-                    }
-                }
-            }}
-            plugins={[centerTextPlugin]}
-            />
-        )
-    })
-
-
     const goalList = goals.map((_, i) =>
         <div className={"goalDiv"} id={`goalDiv${i}`}>
-                <div className="goalDoughnutDiv">
-                    {doughnut(i)}
-                </div>
+            <GoalChart saved={saved[i]} target={targets[i]} description={descriptions[i]} index={i}/>
                 <div className={"goalBtnDiv"}>
                     <button className={"goal_small_action goalBtn"} onClick={event => changeEditMode(i)}>
                         {editMode[i] ? "Save changes" : "Edit"}
@@ -144,7 +88,6 @@ function Goal({goals}:GoalProps) {
                             </>)
                     }
                 </div>
-
             </div>
 
 
