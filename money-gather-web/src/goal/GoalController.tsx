@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import Goal from "./Goal.tsx";
+import GoalLayout from "./GoalLayout.tsx";
 import {fetchGoals} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
 
@@ -13,7 +13,7 @@ function BudgetController(){
 
     if (goals.length < 1) return <h1>Loading...</h1>
 
-    return (<Goal goals={goals}/>);
+    return (<GoalLayout goals={goals}/>);
 }
 
 export default BudgetController;

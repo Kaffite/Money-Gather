@@ -6,8 +6,8 @@ type GoalProps = {
     goals: GoalItem[]
 }
 
-function Goal({goals}:GoalProps) {
-    const [saved, setSaved] = useState<string[]>(goals.map(goal => String(goal.saved)));
+function GoalLayout({goals}:GoalProps) {
+    const [currentAmount, setCurrentAmount] = useState<string[]>(goals.map(goal => String(goal.currentAmount)));
     const [targets, setTargets] = useState<string[]>(goals.map(goal => String(goal.target)));
     const [descriptions, setDescriptions] = useState<string[]>(goals.map(goal => goal.description));
     const [editMode, setEditMode] = useState<boolean[]>(Array(goals.length).fill(false));
@@ -15,7 +15,7 @@ function Goal({goals}:GoalProps) {
 
 
     // TODO: Notify the users about the limit
-    function handleSavedChange (index:number, e:React.ChangeEvent<HTMLInputElement>) {
+    function updatecurrentAmount (index:number, e:React.ChangeEvent<HTMLInputElement>) {
         let value:string = e.target.value;
 
         const valueNr:number = Number(e.target.value);
@@ -23,9 +23,9 @@ function Goal({goals}:GoalProps) {
 
         if (valueNr > Number(targets[index])) value = targets[index];
         if (typeIsNr) {
-            const updated = [...saved];
+            const updated = [...currentAmount];
             updated[index] = value;
-            setSaved(updated);
+            setCurrentAmount(updated);
         }
     }
 
@@ -41,54 +41,54 @@ function Goal({goals}:GoalProps) {
     }
 
     // TODO: Tell Users that max size is 10 characters
-    function handleDescChange(index:number, e:React.ChangeEvent<HTMLInputElement>) {
+    function updateDescription(index:number, e:React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value.length > descLimit) return;
         const updated = [...descriptions];
         updated[index] = e.target.value;
         setDescriptions(updated);
     }
 
-    function changeEditMode (i:number) {
+    function updateEditMode (i:number) {
         const updated = [...editMode];
         updated[i] = !updated[i];
         setEditMode(updated);
     }
 
 
-    //  TODO: Remove goal from DB
+    // Removes deleted goal from UI
+    //  TODO: Notifies GoalController about deletion (So the goal is deleted permanenetly)
     function deleteGoal(index:number){
         // Remove i-th element from array
-        setSaved(saved.filter((_, i) => i != index))
+        setCurrentAmount(currentAmount.filter((_, i) => i != index))
         setTargets(targets.filter((_, i) => i != index))
         setDescriptions(descriptions.filter((_, i) => i != index))
         setEditMode(editMode.filter((_, i) => i != index))
-        // Remove visual elements of the goal
         document.getElementById(`goalDiv${index}`)?.remove()
     }
 
     const goalList = goals.map((_, i) =>
-        <div className={"goalDiv"} id={`goalDiv${i}`}>
-            <GoalChart saved={saved[i]} target={targets[i]} description={descriptions[i]} index={i}/>
+        <div className={"verticalDiv"} id={`goalDiv${i}`}>
+            <GoalChart currentAmount={currentAmount[i]} target={targets[i]} description={descriptions[i]} index={i}/>
                 <div className={"goalBtnDiv"}>
-                    <button className={"goal_small_action goalBtn"} onClick={event => changeEditMode(i)}>
+                    <button className={"goal_small_action goalBtn"} onClick={event => updateEditMode(i)}>
                         {editMode[i] ? "Save changes" : "Edit"}
                     </button>
                     <button className={"goal_small_action goalBtn deleteBtn"} onClick={event => deleteGoal(i)}>Delete</button>
                 </div>
-                <div className={"goalInputDiv"}>
-                    {editMode[i]
-                        ?   (<div>
-                                <input className={"goal_small_action"} value={(saved[i])} placeholder={"Saved"} onChange={event => handleSavedChange(i, event)}/> /
-                                <input className={"goal_small_action"} value={targets[i]} placeholder={"Target"} onChange={event => handleTargetChange(i, event)} /> €
-                                <input className={"goal_big_action"} value={descriptions[i]} placeholder={`Name (max ${descLimit} symbols)`} onChange={event => handleDescChange(i, event)} ></input>
-                            </div>)
-                        :   (<>
-                            <h3> {(saved[i])} / {targets[i]}€  </h3>
-                            <h3> ({Math.round(Number(saved[i]) / Number(targets[i]) * 100)}%)</h3>
-                            </>)
-                    }
-                </div>
-            </div>
+                {editMode[i]
+                ? (<div className={"goalInputDiv"}>
+                        <div>
+                            <input className={"goal_small_action"} value={(currentAmount[i])} placeholder={"Saved Amount"} onChange={event => updatecurrentAmount(i, event)}/> /
+                            <input className={"goal_small_action"} value={targets[i]} placeholder={"Target Amount"} onChange={event => handleTargetChange(i, event)} /> €
+                        </div>
+                        <input className={"goal_big_action"} value={descriptions[i]} placeholder={`Name (max ${descLimit} symbols)`} onChange={event => updateDescription(i, event)} ></input>
+                  </div>)
+
+                : (<div className={"goalInputDiv horizontalDiv"}>
+                        <h3> {(currentAmount[i])} / {targets[i]}€  </h3>
+                        <h3> ({Math.round(Number(currentAmount[i]) / Number(targets[i]) * 100)}%)</h3>
+                  </div>)}
+        </div>
 
 
 );
@@ -96,7 +96,7 @@ function Goal({goals}:GoalProps) {
     return(
         <>
             <h1>Your Goals</h1>
-            <div className={"goalGroupDiv"}>
+            <div className={"horizontalDiv"}>
                 {goalList}
             </div>
         </>
@@ -104,4 +104,4 @@ function Goal({goals}:GoalProps) {
 
 }
 
-export default Goal;
+export default GoalLayout;

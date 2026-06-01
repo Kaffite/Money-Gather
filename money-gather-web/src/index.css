@@ -27,14 +27,14 @@ input:hover{
     background-color: #ed332d;
 }
 
-.goalGroupDiv{
-    display: flex;
-    flex-direction: row;
-}
-
-.goalDiv{
+.verticalDiv{
     display: flex;
     flex-direction: column;
+}
+
+.horizontalDiv {
+    display: flex;
+    flex-direction: row;
 }
 
 .goal_small_action{
@@ -55,8 +55,6 @@ input:hover{
 }
 
 .goalInputDiv{
-    display: flex;
-    flex-direction: row;
     font-size: 20px;
     padding: 10px 5px;
     margin-left: 95px;
