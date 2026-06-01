@@ -11,7 +11,7 @@ import lombok.Setter;
 public class GoalRequestDTO {
 
     private String description;
-    private int saved;
+    private int currentAmount;
     private int target;
 
 }

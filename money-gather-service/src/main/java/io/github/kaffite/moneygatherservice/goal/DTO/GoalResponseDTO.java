@@ -11,7 +11,7 @@ public class GoalResponseDTO {
 
     private Long id;
     private String description;
-    private int saved;
+    private int currentAmount;
     private int target;
 
 

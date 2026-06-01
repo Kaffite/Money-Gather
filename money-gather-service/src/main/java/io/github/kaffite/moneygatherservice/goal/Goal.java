@@ -16,12 +16,12 @@ public class Goal {
     @SequenceGenerator(name = "invoice_seq", sequenceName = "invoice_sequence", allocationSize = 1)
     private Long id;
     private String description;
-    private int saved;
+    private int currentAmount;
     private int target;
 
-    public Goal(String description, int saved, int target) {
+    public Goal(String description, int currentAmount, int target) {
         this.description = description;
-        this.saved = saved;
+        this.currentAmount = currentAmount;
         this.target = target;
 
     }
