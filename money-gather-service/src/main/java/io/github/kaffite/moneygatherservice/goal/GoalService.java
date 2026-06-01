@@ -2,9 +2,11 @@ package io.github.kaffite.moneygatherservice.goal;
 
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalRequestDTO;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalResponseDTO;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,7 +18,7 @@ public class GoalService {
     }
 
     public List<GoalResponseDTO> getAllGoals(){
-        List<Goal> entities = repository.findAll();
+        List<Goal> entities = repository.findAll(Sort.by("id"));
         List<GoalResponseDTO> result =
                 entities.stream()
                     .map(e -> new GoalResponseDTO(e.getId(), e.getDescription(), e.getCurrentAmount(), e.getTarget()))
@@ -29,10 +31,15 @@ public class GoalService {
         return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getCurrentAmount(), goal.getTarget());
     }
 
-//    public GoalResponseDTO editGoal(GoalRequestDTO requestDTO, Long id) {
-//        Optional<Goal> goal = repository.findById(id);
-//        // TODO: Better response if not found
-//        if (!goal.isPresent()) return null;
-//
-//    }
+    public GoalResponseDTO editGoal(GoalRequestDTO request, Long id) {
+        repository.setGoalById(
+                id,
+                request.getDescription(),
+                request.getCurrentAmount(),
+                request.getTarget());
+        Goal response = repository.getById(id);
+        return new GoalResponseDTO(
+                response.getId(), response.getDescription(),
+                response.getCurrentAmount(), response.getTarget());
+    }
 }

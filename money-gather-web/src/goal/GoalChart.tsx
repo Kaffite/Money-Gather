@@ -5,10 +5,10 @@ type ChartProps = {
     currentAmount: string,
     target: string,
     description: string
-    index: number
+    id: number
 }
 
-function GoalChart({currentAmount, target, description, index}: ChartProps) {
+function GoalChart({currentAmount, target, description, id}: ChartProps) {
     // Global Chart plugins
     ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -45,7 +45,7 @@ function GoalChart({currentAmount, target, description, index}: ChartProps) {
 
     const doughnut = () => {
         return(<Doughnut
-                key={index}
+                key={id}
                 data={getDoughnutData()}
                 options={{
                     plugins: {

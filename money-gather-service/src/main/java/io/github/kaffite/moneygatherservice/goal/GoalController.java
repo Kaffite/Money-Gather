@@ -26,8 +26,8 @@ public class GoalController {
         return service.saveGoal(requestDTO);
     }
 
-//    @PutMapping("/goals/{id}")
-//    public GoalResponseDTO editGoal(@RequestBody GoalRequestDTO requestDTO, @PathVariable Long id){
-//        return service.editGoal(requestDTO, id);
-//    }
+    @PutMapping("/goals/{id}")
+    public GoalResponseDTO editGoal(@RequestBody GoalRequestDTO requestDTO, @PathVariable Long id){
+        return service.editGoal(requestDTO, id);
+    }
 }
