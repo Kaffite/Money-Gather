@@ -27,4 +27,32 @@ async function editGoal(goal:GoalItem): Promise<GoalItem>{
     return await response.json();
 }
 
-export {fetchGoals, editGoal};
+async function addNewGoal(): Promise<GoalItem>{
+    const response = await fetch ("http://localhost:8080/goals", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            description: "",
+            currentAmount: 0,
+            target: 100
+        })
+    });
+    if (!response.ok){
+        throw new Error("Editing goal failed!")
+    }
+    return await response.json();
+}
+
+async function deleteGoal(idx:number): Promise<GoalItem>{
+    const response = await fetch (`http://localhost:8080/goals/${idx}`, {
+        method: "Delete"
+    });
+    if (!response.ok){
+        throw new Error("Editing goal failed!")
+    }
+    return await response.json();
+}
+
+export {fetchGoals, editGoal, addNewGoal, deleteGoal};

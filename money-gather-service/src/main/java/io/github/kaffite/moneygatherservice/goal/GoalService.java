@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +25,12 @@ public class GoalService {
         return result;
     }
 
-    public GoalResponseDTO saveGoal(GoalRequestDTO requestDTO) {
+    public GoalResponseDTO addNewGoal(GoalRequestDTO requestDTO) {
         Goal goal = repository.save(new Goal(requestDTO.getDescription(), requestDTO.getCurrentAmount(), requestDTO.getTarget()));
         return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getCurrentAmount(), goal.getTarget());
     }
 
-    public GoalResponseDTO editGoal(GoalRequestDTO request, Long id) {
+    public GoalResponseDTO editExistingGoal(GoalRequestDTO request, Long id) {
         repository.setGoalById(
                 id,
                 request.getDescription(),
@@ -41,5 +40,9 @@ public class GoalService {
         return new GoalResponseDTO(
                 response.getId(), response.getDescription(),
                 response.getCurrentAmount(), response.getTarget());
+    }
+
+    public void deleteByID(Long id) {
+        repository.deleteById(id);
     }
 }

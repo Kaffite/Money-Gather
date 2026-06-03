@@ -58,9 +58,6 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
         }
     }
 
-
-
-
     // In edit mode we use buffer values
     // These values are saved after exiting edit mode
     return(

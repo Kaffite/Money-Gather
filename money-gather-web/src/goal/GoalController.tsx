@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import GoalLayout from "./GoalLayout.tsx";
-import {fetchGoals, editGoal} from "./api/GoalAPI.tsx";
+import {fetchGoals, editGoal, addNewGoal, deleteGoal} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
 
 function BudgetController(){
@@ -11,12 +11,12 @@ function BudgetController(){
         fetchGoals().then(goals => setGoals(goals))
     }, []);
 
-    //TODO: Implement
+    const addGoal = () => addNewGoal();
+
+    //TODO: Implement correctly
     function onDelete(index:number){
-        return;
     }
 
-    //TODO: Implement Globally
     function onUpdate(index:number, goal:GoalItem){
         const updated = [...goals];
         // So ID can't be overwritten
@@ -32,7 +32,7 @@ function BudgetController(){
     if (goals.length < 1)
         return <h1>Loading...</h1>
 
-    return (<GoalLayout goals={goals} onDelete={onDelete} onUpdate={onUpdate}/>);
+    return (<GoalLayout goals={goals} onDelete={onDelete} onUpdate={onUpdate} addNewGoal={addGoal}/>);
 }
 
 export default BudgetController;

@@ -5,9 +5,10 @@ type GoalProps = {
     goals: GoalItem[]
     onDelete: (index:number) => void
     onUpdate: (index:number, goal:GoalItem) => void
+    addNewGoal: () => void
 }
 
-function GoalLayout({goals, onDelete, onUpdate}:GoalProps) {
+function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
     const goalList = goals.map((goal, i) =>
         <Goal key={goal.id} goal={goal} onDelete={onDelete} onUpdate={onUpdate} index={i}/>)
@@ -19,6 +20,7 @@ function GoalLayout({goals, onDelete, onUpdate}:GoalProps) {
             <div className={"horizontalDiv"}>
                 {goalList}
             </div>
+            <button onClick={addNewGoal}> Add a new goal</button>
         </div>
     );
 }
