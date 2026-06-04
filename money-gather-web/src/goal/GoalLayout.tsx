@@ -3,7 +3,7 @@ import Goal from "./Goal.tsx";
 
 type GoalProps = {
     goals: GoalItem[]
-    onDelete: (index:number) => void
+    onDelete: (goal:GoalItem) => void
     onUpdate: (index:number, goal:GoalItem) => void
     addNewGoal: () => void
 }

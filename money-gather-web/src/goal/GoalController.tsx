@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import GoalLayout from "./GoalLayout.tsx";
 import {fetchGoals, editGoal, addNewGoal, deleteGoal} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
+import Goal from "./Goal.tsx";
 
 function BudgetController(){
     const [goals, setGoals] = useState<GoalItem[]>([]);
@@ -11,10 +12,19 @@ function BudgetController(){
         fetchGoals().then(goals => setGoals(goals))
     }, []);
 
-    const addGoal = () => addNewGoal();
+    async function addGoal (){
+        const newGoal:GoalItem = await addNewGoal();
+        const updated:GoalItem[] = [...goals];
+        updated.push(newGoal);
+        setGoals(updated);
+    }
 
     //TODO: Implement correctly
-    function onDelete(index:number){
+    function onDelete(goal:GoalItem){
+        deleteGoal(goal.id);
+        const updated:GoalItem[] = [...goals];
+        updated.splice(goals.indexOf(goal), 1);
+        setGoals(updated);
     }
 
     function onUpdate(index:number, goal:GoalItem){

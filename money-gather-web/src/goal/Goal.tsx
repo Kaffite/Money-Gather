@@ -4,7 +4,7 @@ import {useState} from "react";
 
 type props = {
     goal:GoalItem
-    onDelete: (index:number) => void
+    onDelete: (goal:GoalItem) => void
     onUpdate: (index:number, goal:GoalItem) => void
     index: number
 }
@@ -67,7 +67,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
                 <button className={"goal_small_action goalBtn"} onClick={() => updateEditMode()}>
                     {editMode ? "Save changes" : "Edit"}
                 </button>
-                <button className={"goal_small_action goalBtn deleteBtn"} onClick={() => onDelete(index)}>Delete</button>
+                <button className={"goal_small_action goalBtn deleteBtn"} onClick={() => onDelete(goal)}>Delete</button>
             </div>
             {editMode
                 ? (<div className={"goalInputDiv"}>

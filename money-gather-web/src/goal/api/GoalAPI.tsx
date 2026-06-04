@@ -45,8 +45,8 @@ async function addNewGoal(): Promise<GoalItem>{
     return await response.json();
 }
 
-async function deleteGoal(idx:number): Promise<GoalItem>{
-    const response = await fetch (`http://localhost:8080/goals/${idx}`, {
+async function deleteGoal(id:number): Promise<GoalItem>{
+    const response = await fetch (`http://localhost:8080/goals/${id}`, {
         method: "Delete"
     });
     if (!response.ok){
