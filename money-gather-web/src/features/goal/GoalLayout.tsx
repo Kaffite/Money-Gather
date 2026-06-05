@@ -11,14 +11,14 @@ type GoalProps = {
 function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
     const goalList = goals.map((goal, i) =>
-        <Goal key={goal.id} goal={goal} onDelete={onDelete} onUpdate={onUpdate} index={i}/>)
+            <Goal key={goal.id} goal={goal} onDelete={onDelete} onUpdate={onUpdate} index={i}/>)
 
 
     return(
         <div>
             <h1>Your Goals</h1>
-            <div className={"horizontalDiv"}>
-                {goalList}
+            <div className={"horizontalDiv goal_container"}>
+                    {goalList}
             </div>
             <button onClick={addNewGoal}> Add a new goal</button>
         </div>

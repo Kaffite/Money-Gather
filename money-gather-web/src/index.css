@@ -45,9 +45,18 @@ input:hover{
     width: 225px;
 }
 
+.goal_container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.goal_container > div{
+    flex: 0 0 33%;
+}
+
 .goalDoughnutDiv{
     width: 300px;
-    margin: 10px 60px 0px 60px;
+    margin: 10px 0px 0px 60px;
 }
 
 .goalBtnDiv{

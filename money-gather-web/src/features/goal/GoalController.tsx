@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import GoalLayout from "./GoalLayout.tsx";
 import {fetchGoals, editGoal, addNewGoal, deleteGoal} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
-import Goal from "./Goal.tsx";
 
 function BudgetController(){
     const [goals, setGoals] = useState<GoalItem[]>([]);
@@ -19,7 +18,6 @@ function BudgetController(){
         setGoals(updated);
     }
 
-    //TODO: Implement correctly
     function onDelete(goal:GoalItem){
         deleteGoal(goal.id);
         const updated:GoalItem[] = [...goals];

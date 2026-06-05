@@ -61,7 +61,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     // In edit mode we use buffer values
     // These values are saved after exiting edit mode
     return(
-        <div key={goal.id} className={"verticalDiv"}>
+        <div key={goal.id}>
             <GoalChart currentAmount={String(buffer.currentAmount)} target={String(buffer.target)} description={buffer.description} id={goal.id}/>
             <div className={"goalBtnDiv"}>
                 <button className={"goal_small_action goalBtn"} onClick={() => updateEditMode()}>
@@ -81,7 +81,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
                 : (<div className={"goalInputDiv horizontalDiv"}>
                     <h3> {(goal.currentAmount)} / {goal.target}€  </h3>
                     <h3> ({Math.round(Number(goal.currentAmount) / Number(goal.target) * 100)}%)</h3>
-                </div>)}
+            </div>)}
         </div>);
 }
 
