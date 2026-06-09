@@ -16,9 +16,8 @@ function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
     return(
         <div>
-            <h1>Your Goals</h1>
             <div className={"horizontalDiv goal_container"}>
-                    {goalList}
+                {goalList}
             </div>
             <button onClick={addNewGoal}> Add a new goal</button>
         </div>

@@ -34,7 +34,7 @@ async function addNewGoal(): Promise<GoalItem>{
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            description: "",
+            description: "New Goal",
             currentAmount: 0,
             target: 100
         })

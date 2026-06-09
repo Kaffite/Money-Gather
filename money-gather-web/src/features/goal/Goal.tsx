@@ -61,10 +61,10 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     // In edit mode we use buffer values
     // These values are saved after exiting edit mode
     return(
-        <div key={goal.id}>
+        <div key={goal.id} className={"goal_div"}>
             <GoalChart currentAmount={String(buffer.currentAmount)} target={String(buffer.target)} description={buffer.description} id={goal.id}/>
             <div className={"goalBtnDiv"}>
-                <button className={"goal_small_action goalBtn"} onClick={() => updateEditMode()}>
+                <button className={"goal_small_action goalBtn goal_action_btn"} onClick={() => updateEditMode()}>
                     {editMode ? "Save changes" : "Edit"}
                 </button>
                 <button className={"goal_small_action goalBtn deleteBtn"} onClick={() => onDelete(goal)}>Delete</button>

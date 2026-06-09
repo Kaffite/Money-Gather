@@ -12,6 +12,8 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
     // Global Chart plugins
     ChartJS.register(ArcElement, Tooltip, Legend);
 
+    // Custom plugin that allows placing
+    // text to the center of the doughnut
     const centerTextPlugin = {
         id: "centerTextPlugin",
         beforeDraw: function (chart:ChartJS, _args, options) {
@@ -37,8 +39,8 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
             labels: ["Saved amount", "Remaining amount"],
             datasets: [{
                 data: [Number(currentAmount), remaining],
-                backgroundColor: ['#63e4e1' , '#ffffff'],
-                borderColor: '#1e1e1e'
+                backgroundColor: ['#30AB62' , '#A4D8C8'],
+                borderColor: '#0A0C1F'
             }],
         }
     }

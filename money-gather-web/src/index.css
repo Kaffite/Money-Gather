@@ -1,7 +1,9 @@
-h1{
-    text-align: center;
-    color: dodgerblue;
+body{
+    background: #D5EBF4;
+    margin: 0;
+    padding: 0;
 }
+
 h2{
     color: #90e0ef;
 }
@@ -24,7 +26,7 @@ input:hover{
 }
 
 .deleteBtn{
-    background-color: #ed332d;
+    background-color: #C22D44;
 }
 
 .verticalDiv{
@@ -48,10 +50,18 @@ input:hover{
 .goal_container{
     display: flex;
     flex-wrap: wrap;
+    margin: 0px 10px 0px 10px;
 }
 
 .goal_container > div{
-    flex: 0 0 33%;
+    flex: 0 0 45%;
+}
+
+.goal_div{
+    background: #A4D8C8;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid;
+    border-radius: 10px;
 }
 
 .goalDoughnutDiv{
@@ -73,5 +83,7 @@ input:hover{
     margin: 15px 10px 10px 10px;
 }
 
-
+.goal_action_btn {
+    background: #3FB0F1;
+}
 

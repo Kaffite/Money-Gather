@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import GoalLayout from "./GoalLayout.tsx";
 import {fetchGoals, editGoal, addNewGoal, deleteGoal} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
+import Header from "../../components/Header.tsx";
 
 function BudgetController(){
     const [goals, setGoals] = useState<GoalItem[]>([]);
@@ -40,7 +41,12 @@ function BudgetController(){
     if (goals.length < 1)
         return <h1>Loading...</h1>
 
-    return (<GoalLayout goals={goals} onDelete={onDelete} onUpdate={onUpdate} addNewGoal={addGoal}/>);
+    return (
+        <>
+            <Header/>
+            <GoalLayout goals={goals} onDelete={onDelete} onUpdate={onUpdate} addNewGoal={addGoal}/>
+        </>
+    );
 }
 
 export default BudgetController;
