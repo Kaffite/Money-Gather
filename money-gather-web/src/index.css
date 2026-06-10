@@ -1,7 +1,8 @@
 body{
-    background: #D5EBF4;
+    background: #D2E3FC;
     margin: 0;
     padding: 0;
+
 }
 
 h2{
@@ -25,16 +26,12 @@ input:hover{
     background: #87cefa;
 }
 
-.deleteBtn{
-    background-color: #C22D44;
+.delete_btn{
+    background-color: #ec273f;
+    color: #FFFFFF;
 }
 
-.verticalDiv{
-    display: flex;
-    flex-direction: column;
-}
-
-.horizontalDiv {
+.horizontal_div {
     display: flex;
     flex-direction: row;
 }
@@ -58,32 +55,35 @@ input:hover{
 }
 
 .goal_div{
-    background: #A4D8C8;
+    background: #A7C7FA;
     margin: 10px 10px 10px 10px;
     border: 1px solid;
     border-radius: 10px;
 }
 
-.goalDoughnutDiv{
+.goal_doughnut_div{
     width: 300px;
     margin: 10px 0px 0px 60px;
 }
 
-.goalBtnDiv{
+.goal_btn_div{
     margin-left: 95px;
 }
 
-.goalInputDiv{
+.goal_input_div{
     font-size: 20px;
     padding: 10px 5px;
     margin-left: 95px;
 }
 
-.goalBtn {
+.goal_btn {
     margin: 15px 10px 10px 10px;
+    border-radius: 10px;
+
 }
 
 .goal_action_btn {
-    background: #3FB0F1;
+    background: #0160c9;
+    color: #FFFFFF;
 }
 

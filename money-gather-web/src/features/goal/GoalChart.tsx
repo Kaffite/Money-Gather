@@ -39,7 +39,7 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
             labels: ["Saved amount", "Remaining amount"],
             datasets: [{
                 data: [Number(currentAmount), remaining],
-                backgroundColor: ['#30AB62' , '#A4D8C8'],
+                backgroundColor: ['#0790e8' , '#F1F3F4'],
                 borderColor: '#0A0C1F'
             }],
         }

@@ -16,10 +16,10 @@ function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
     return(
         <div>
-            <div className={"horizontalDiv goal_container"}>
+            <div className={"horizontal_div goal_container"}>
                 {goalList}
             </div>
-            <button onClick={addNewGoal}> Add a new goal</button>
+            <button onClick={addNewGoal} className={"goal_btn goal_action_btn"}> Add a new goal</button>
         </div>
     );
 }
