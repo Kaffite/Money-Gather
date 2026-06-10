@@ -1,26 +1,41 @@
 .header_div {
-    background: #3FB0F1;
+    background: #5390D9;
     display: flex;
     align-items: center;
     position: sticky;
     top: 0;
     gap: 25px;
     height: 50px;
-
 }
 
 .logo {
-    margin-left: 20px;
+    margin-left: 22px;
 }
 
 .route {
-    background: #6DC9EF;
-    border: 1px solid #54BBF0;
-    border-radius: 5px;
-    font-size: 18px;
+    font-size: 22px;
     padding: 3px 10px;
+    color: #04e3ff;
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 400ms;
 }
 
 .route:hover{
-    background: #50f1c1;
+    text-decoration-color: #04e3ff;
+    cursor: pointer;
+}
+
+.right_side{
+    margin-left: auto;
+}
+
+.profile_Pic{
+    width: 4em;
+    height: 4em;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.profile_Pic:hover{
+    cursor: pointer;
 }
