@@ -1,6 +1,7 @@
 import GoalChart from "./GoalChart.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
 import {useState} from "react";
+import style from "./goal.module.css"
 
 type props = {
     goal:GoalItem
@@ -61,29 +62,48 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     // In edit mode we use buffer values
     // These values are saved after exiting edit mode
     return(
-        <div key={goal.id} className={"goal_div"}>
+        <div key={goal.id} className={style.goal_div}>
             <GoalChart currentAmount={String(buffer.currentAmount)} target={String(buffer.target)} description={buffer.description} id={goal.id}/>
-            <div className={"goal_btn_div"}>
-                <button className={"goal_small_action goal_btn goal_action_btn"}
+            <div className={style.goal_btn_div}>
+                <button className={style.goal_small_action + " " + style.goal_btn + " " + style.goal_action_btn}
                     style={ editMode ?{backgroundColor: "green"} : {} }
                     onClick={() => updateEditMode()}>
                         {editMode ? "Confirm" : "Edit"}
                 </button>
-                <button className={"goal_small_action goal_btn delete_btn"} onClick={() => onDelete(goal)}>Delete</button>
+                <button className={style.goal_small_action + " " + style.goal_btn + " " + style.delete_btn}
+                        onClick={() => onDelete(goal)}>Delete
+                </button>
             </div>
             {editMode
-                ? (<div className={"goal_input_div"}>
+                ?
+                (<div className={style.goal_input_div}>
                     <div>
-                        <input className={"goal_small_action"} value={(buffer.currentAmount)} placeholder={"Saved Amount"} onChange={event => updatecurrentAmount(event)}/> /
-                        <input className={"goal_small_action"} value={buffer.target} placeholder={"Target Amount"} onChange={event => updateTarget(event)} /> €
+                        <input className={style.goal_small_action}
+                               value={(buffer.currentAmount)}
+                               placeholder={"Saved Amount"}
+                               onChange={event => updatecurrentAmount(event)}>
+                        </input>
+                        /
+                        <input className={style.goal_small_action}
+                               value={buffer.target}
+                               placeholder={"Target Amount"}
+                               onChange={event => updateTarget(event)}>
+                        </input>
+                        €
                     </div>
-                    <input className={"goal_big_action"} value={buffer.description} placeholder={`Name (max ${descLimit} symbols)`} onChange={event => updateDescription(event)} ></input>
+                    <input
+                        className={style.goal_big_action}
+                        value={buffer.description}
+                        placeholder={`Name (max ${descLimit} symbols)`}
+                        onChange={event => updateDescription(event)}
+                    ></input>
                 </div>)
 
-                : (<div className={"goal_input_div horizontal_div"}>
+                :
+                (<div className={style.goal_input_div + " " + style.horizontal_div}>
                     <h3> {(goal.currentAmount)} / {goal.target}€  </h3>
                     <h3> ({Math.round(Number(goal.currentAmount) / Number(goal.target) * 100)}%)</h3>
-            </div>)}
+                </div>)}
         </div>);
 }
 

@@ -1,5 +1,6 @@
 import {type GoalItem} from "./types/GoalItem.tsx";
 import Goal from "./Goal.tsx";
+import style from "./goal.module.css"
 
 type GoalProps = {
     goals: GoalItem[]
@@ -16,7 +17,7 @@ function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
     return(
         <div>
-            <div className={"horizontal_div goal_container"}>
+            <div className={style.horizontal_div + " " + style.goal_container}>
                 {goalList}
             </div>
             <button onClick={addNewGoal} className={"goal_btn goal_action_btn"}> Add a new goal</button>

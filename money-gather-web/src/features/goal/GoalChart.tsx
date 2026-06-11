@@ -1,5 +1,6 @@
 import {Doughnut} from "react-chartjs-2";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import style from "./goal.module.css"
 
 type ChartProps = {
     currentAmount: string,
@@ -34,11 +35,12 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
 
     // Data of Doughnut Charts
     function getDoughnutData () {
-        const remaining = Number(target) - Number(currentAmount);
+        const currentAsNr= Number(currentAmount);
+        const remaining = Number(target) - currentAsNr;
         return {
             labels: ["Saved amount", "Remaining amount"],
             datasets: [{
-                data: [Number(currentAmount), remaining],
+                data: [currentAsNr, remaining],
                 backgroundColor: ['#0790e8' , '#F1F3F4'],
                 borderColor: '#0A0C1F'
             }],
@@ -62,7 +64,7 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
     }
 
     return(
-        <div className="goalDoughnutDiv">
+        <div className={style.goal_doughnut_div}>
             {doughnut()}
         </div>
     )
