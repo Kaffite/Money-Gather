@@ -1,6 +1,5 @@
 import {Doughnut} from "react-chartjs-2";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
-import style from "./goal.module.css"
 
 type ChartProps = {
     currentAmount: string,
@@ -47,26 +46,18 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
         }
     }
 
-    const doughnut = () => {
-        return(<Doughnut
-                key={id}
-                data={getDoughnutData()}
-                options={{
-                    plugins: {
-                        centerTextPlugin: {
-                            text: description
-                        }
+    return(<Doughnut
+            key={id}
+            data={getDoughnutData()}
+            options={{
+                plugins: {
+                    centerTextPlugin: {
+                        text: description
                     }
-                }}
-                plugins={[centerTextPlugin]}
-            />
-        )
-    }
-
-    return(
-        <div className={style.goal_doughnut_div}>
-            {doughnut()}
-        </div>
+                }
+            }}
+            plugins={[centerTextPlugin]}
+        />
     )
 }
 

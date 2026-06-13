@@ -3,7 +3,7 @@ import style from "./Header.module.css"
 function Header() {
 
     return(
-      <div className={style.header_div} style={{fontFamily: "Simonetta_400Regular"}}>
+      <div className={style.container} style={{fontFamily: "Simonetta_400Regular"}}>
           <p className={style.logo}>LOGO</p>
           <a className={style.route}>Home</a>
           <a className={style.route}>Goals</a>

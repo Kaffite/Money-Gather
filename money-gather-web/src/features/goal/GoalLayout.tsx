@@ -1,6 +1,8 @@
 import {type GoalItem} from "./types/GoalItem.tsx";
 import Goal from "./Goal.tsx";
 import style from "./goal.module.css"
+import Footer from "@/components/Footer.tsx";
+import Header from "@/components/Header.tsx";
 
 type GoalProps = {
     goals: GoalItem[]
@@ -16,13 +18,21 @@ function GoalLayout({goals, onDelete, onUpdate, addNewGoal}:GoalProps) {
 
 
     return(
-        <div>
-            <div className={style.horizontal_div + " " + style.goal_container}>
+        <>
+            <Header/>
+            <div className={style.container}>
                 {goalList}
+                <button
+                    onClick={addNewGoal}
+                    id={style.new_goal_btn}
+                    className={style.action_btn + " " + style.blue_btn}>
+                    Add a new goal
+                </button>
             </div>
-            <button onClick={addNewGoal} className={"goal_btn goal_action_btn"}> Add a new goal</button>
-        </div>
-    );
+            <Footer/>
+        </>
+
+);
 }
 
 export default GoalLayout;

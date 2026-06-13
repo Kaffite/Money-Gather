@@ -1,4 +1,4 @@
-.header_div {
+.container {
     background: #5390D9;
     display: flex;
     align-items: center;
@@ -9,11 +9,11 @@
 }
 
 .logo {
-    margin-left: 22px;
+    margin-left: 100px;
 }
 
 .route {
-    font-size: 22px;
+    font-size: 24px;
     padding: 3px 10px;
     color: #04e3ff;
     text-decoration: underline 0.15em rgba(255, 255, 255, 0);
@@ -32,8 +32,6 @@
 .profile_Pic{
     width: 4em;
     height: 4em;
-    margin-right: 10px;
-    margin-top: 5px;
 }
 
 .profile_Pic:hover{

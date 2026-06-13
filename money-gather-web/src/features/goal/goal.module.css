@@ -1,56 +1,66 @@
-.horizontal_div {
-    display: flex;
-    flex-direction: row;
-}
-
-.goal_small_action{
+.small_action{
     width: 100px;
 }
 
-.goal_big_action{
+.big_action{
     width: 225px;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2em;
+    margin: 0 1em;
+}
+
+.vertical_div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*border: 1px solid;*/
+}
+
+.dougnut_input_div{
+    margin-left: 2em;
 }
 
 .goal_container{
     display: flex;
-    flex-wrap: wrap;
-    margin: 0px 10px 0px 10px;
-}
-
-.goal_container > div{
-    flex: 0 0 45%;
-}
-
-.goal_div{
     background: #A7C7FA;
-    margin: 10px 10px 10px 10px;
-    border: 1px solid;
+    margin-top: 1em;
+    padding: 1em;
+    border: 1px  solid;
     border-radius: 10px;
 }
 
-.goal_doughnut_div{
-    width: 300px;
-    margin: 10px 0px 0px 60px;
+.btn_div{
+    margin-left: 1em;
+    margin-top: 6em;
 }
 
-.goal_btn_div{
-    margin-left: 95px;
-}
-
-.goal_input_div{
+.input_div{
     font-size: 20px;
     padding: 10px 5px;
-    margin-left: 95px;
 }
 
-.goal_btn {
-    margin: 15px 10px 10px 10px;
-    border-radius: 10px;
-
-}
-
-.goal_action_btn {
+.blue_btn{
     background: #0160c9;
     color: #FFFFFF;
+}
+
+.blue_btn:hover{
+}
+
+.action_btn{
+    padding: 0.5em;
+    margin: 1em 0 3em 10px;
+    border-radius: 12px;
+}
+
+
+#new_goal_btn{
+    width:40%;
+    margin: 0 auto 2em auto;
+    padding: 1em;
 }
 
