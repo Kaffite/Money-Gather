@@ -49,6 +49,7 @@
 }
 
 .blue_btn:hover{
+    background: #00509d;
 }
 
 .action_btn{
@@ -60,7 +61,9 @@
 
 #new_goal_btn{
     width:40%;
-    margin: 0 auto 2em auto;
+    height: 4em;
+    margin: 0 auto;
     padding: 1em;
+    align-self: center;
 }
 

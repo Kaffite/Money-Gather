@@ -13,6 +13,10 @@ input{
     background: #CAF0F8;
 }
 
+button{
+    cursor: pointer;
+}
+
 input:hover{
     background: #87cefa;
 }
@@ -20,4 +24,9 @@ input:hover{
 .delete_btn{
     background-color: #ec273f;
     color: #FFFFFF;
+}
+
+.delete_btn:hover{
+    background-color: #d00000;
+
 }

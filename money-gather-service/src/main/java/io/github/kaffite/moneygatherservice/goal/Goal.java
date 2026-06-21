@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
 @Entity
 @Getter
@@ -26,6 +24,7 @@ public class Goal {
         this.description = description;
         this.currentAmount = currentAmount;
         this.target = target;
-
     }
+
+
 }

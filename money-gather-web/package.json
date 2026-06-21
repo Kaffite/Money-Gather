@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/simonetta": "^0.4.1",
+    "@react-router/dev": "^7.17.0",
     "chart.js": "^4.5.1",
     "react": "^19.2.5",
     "react-chartjs-2": "^5.3.1",
@@ -29,5 +30,8 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true
   }
 }
