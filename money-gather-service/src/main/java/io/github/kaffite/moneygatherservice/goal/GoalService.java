@@ -1,5 +1,6 @@
 package io.github.kaffite.moneygatherservice.goal;
 
+import io.github.kaffite.moneygatherservice.ResourceNotFoundException;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalRequestDTO;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,14 @@ public class GoalService {
         return new GoalResponseDTO(goal.getId(), goal.getDescription(), goal.getCurrentAmount(), goal.getTarget());
     }
 
-    public GoalResponseDTO setById(GoalRequestDTO request, Long id) {
+    public GoalResponseDTO setById(GoalRequestDTO request, Long id)  {
         repository.setById(
                 id,
                 request.getDescription(),
                 request.getCurrentAmount(),
                 request.getTarget());
-        Goal response = repository.findById(id).orElse(null);
+        Goal response = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Goal with that id does not exist."));
         return new GoalResponseDTO(
                 response.getId(), response.getDescription(),
                 response.getCurrentAmount(), response.getTarget());

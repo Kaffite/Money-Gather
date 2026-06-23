@@ -1,19 +1,26 @@
 package io.github.kaffite.moneygatherservice.goal;
 
+import io.github.kaffite.moneygatherservice.ResourceNotFoundException;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalRequestDTO;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalResponseDTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GoalServiceTest {
@@ -36,49 +43,73 @@ class GoalServiceTest {
 
     @Test
     void getAllGoals() {
-        Mockito.when(repository.findAll(Sort.by("id"))).thenReturn(goals);
+        when(repository.findAll(Sort.by("id"))).thenReturn(goals);
         List<GoalResponseDTO> result = service.getAllGoals();
 
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals("TestGoal", result.getFirst().getDescription());
-        Assertions.assertEquals(0, result.getFirst().getCurrentAmount());
-        Assertions.assertEquals(100, result.getFirst().getTarget());
-        Assertions.assertEquals("TestGoal2", result.getLast().getDescription());
-        Assertions.assertEquals(10, result.getLast().getCurrentAmount());
-        Assertions.assertEquals(200, result.getLast().getTarget());
+        assertEquals(2, result.size());
+        assertEquals("TestGoal", result.getFirst().getDescription());
+        assertEquals(0, result.getFirst().getCurrentAmount());
+        assertEquals(100, result.getFirst().getTarget());
+        assertEquals("TestGoal2", result.getLast().getDescription());
+        assertEquals(10, result.getLast().getCurrentAmount());
+        assertEquals(200, result.getLast().getTarget());
     }
 
     @Test
     void addNewGoal() {
         GoalRequestDTO inputGoal = new GoalRequestDTO("New", 200, 300);
 
-        Goal repoGoal = new Goal(inputGoal.getDescription(), inputGoal.getCurrentAmount(), inputGoal.getTarget());
+        Goal repoGoal = new Goal(
+                inputGoal.getDescription(),
+                inputGoal.getCurrentAmount(),
+                inputGoal.getTarget());
         repoGoal.setId(5L);
-        Mockito.when(repository.save(Mockito.any(Goal.class))).thenReturn(repoGoal);
-
+        when(repository.save(any(Goal.class))).thenReturn(repoGoal);
         GoalResponseDTO response = service.addNewGoal(inputGoal);
-        Mockito.verify(repository, Mockito.times(1)).save(Mockito.any());
-        Assertions.assertEquals(inputGoal.getDescription(), response.getDescription());
-        Assertions.assertEquals(inputGoal.getTarget(), response.getTarget());
-        Assertions.assertEquals(inputGoal.getCurrentAmount(), response.getCurrentAmount());
+        verify(repository, times(1)).save(any());
+
+        assertEquals(inputGoal.getDescription(), response.getDescription());
+        assertEquals(inputGoal.getTarget(), response.getTarget());
+        assertEquals(inputGoal.getCurrentAmount(), response.getCurrentAmount());
     }
 
-    // TODO: Finish writing test
     @Test
-    void setGoalById() {
-        GoalRequestDTO goalAfterChange = new GoalRequestDTO("changed", 100, 200);
+    void setByIdWithValidId() {
         Long id = 1L;
-        service.setById(goalAfterChange, id);
-        Mockito.verify(repository, Mockito.times(1))
-                .setById(
-                        id,
-                        goalAfterChange.getDescription(),
-                        goalAfterChange.getCurrentAmount(),
-                        goalAfterChange.getTarget());
-        // verify
+        String desc = "changed";
+        int current = 100;
+        int target = 200;
+        GoalRequestDTO inputGoal = new GoalRequestDTO(desc, current, target);
+        Goal repoGoalFromId = new Goal(desc, current, target);
+
+        when(repository.findById(id)).thenReturn(Optional.of(repoGoalFromId));
+        when(repository.setById(anyLong(), anyString(),anyInt(),anyInt())).thenReturn(1);
+        GoalResponseDTO response = service.setById(inputGoal, id);
+
+        assertEquals(inputGoal.getDescription(), response.getDescription());
+        assertEquals(inputGoal.getCurrentAmount(), response.getCurrentAmount());
+        assertEquals(inputGoal.getTarget(), response.getTarget());
+        verify(repository, times(1)).setById(
+                id,
+                inputGoal.getDescription(),
+                inputGoal.getCurrentAmount(),
+                inputGoal.getTarget());
     }
 
     @Test
-    void deleteGoalByID() {
+    void setByIdWithInvalidId() {
+        Long id = -1L;
+        GoalRequestDTO inputGoal = new GoalRequestDTO("changed", 200, 300);
+        when(repository.setById(anyLong(), anyString(),anyInt(),anyInt())).thenReturn(0);
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class,  () -> service.setById(inputGoal, id));
+    }
+
+
+    @Test
+    void deleteByID() {
+        Long id = 1L;
+        service.deleteByID(id);
+        verify(repository, times(1)).deleteById(id);
     }
 }
