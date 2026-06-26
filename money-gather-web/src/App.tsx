@@ -1,14 +1,16 @@
-import GoalController from "./features/goal/GoalController.tsx";
+import { BrowserRouter, Route, Routes } from "react-router";
 import "./index.css"
-import {
-    type RouteConfig,
-    route,
-    index,
-} from "@react-router/dev/routes";
+import Home from "@/features/home/Home.tsx";
+import GoalController from "@/features/goal/GoalController.tsx";
 
 function App(){
    return(
-       <GoalController/>
+       <BrowserRouter>
+          <Routes>
+             <Route index element={<Home/>}/>
+             <Route path="goals" element={<GoalController/>}/>
+          </Routes>
+       </BrowserRouter>
    )
 }
 
