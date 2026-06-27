@@ -13,7 +13,6 @@ type props = {
 function Goal ({goal, onDelete, onUpdate, index}: props) {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [buffer, setBuffer] = useState<GoalItem>(goal);
-    const descLimit:number = 10;
 
     const updateEditMode = () => {
         // If we exit edit mode, we want to save changes globally:
@@ -22,16 +21,13 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
         setEditMode(!editMode)
     }
 
-    // TODO: Tell Users that max size is 10 characters
     function updateDescription(e:React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.value.length > descLimit) return;
         setBuffer(prevState => ({
             ...prevState,
             description: e.target.value
         }))
     }
 
-    // TODO: Notify the users about the limit
     function updatecurrentAmount(e:React.ChangeEvent<HTMLInputElement>) {
         let value:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(value);
@@ -85,7 +81,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
                         <input
                             className={style.big_action}
                             value={buffer.description}
-                            placeholder={`Name (max ${descLimit} symbols)`}
+                            placeholder={`Name / Description`}
                             onChange={event => updateDescription(event)}>
                         </input>
                     </div>)
@@ -94,7 +90,6 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
                     (<div className={style.input_div}>
                         <h3>
                             {(goal.currentAmount)} / {goal.target} €
-                            ({Math.round(Number(goal.currentAmount) / Number(goal.target) * 100)}%)
                         </h3>
                     </div>)}
             </div>

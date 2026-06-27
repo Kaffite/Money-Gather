@@ -3,7 +3,6 @@ package io.github.kaffite.moneygatherservice.goal;
 import io.github.kaffite.moneygatherservice.ResourceNotFoundException;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalRequestDTO;
 import io.github.kaffite.moneygatherservice.goal.DTO.GoalResponseDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,12 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GoalServiceTest {
-    private List<Goal> goals;
 
     @Mock
     private GoalRepository repository;
@@ -32,17 +29,14 @@ class GoalServiceTest {
     @InjectMocks
     private GoalService service;
 
-    @BeforeEach
-    void setUp() {
+
+    @Test
+    void getAllGoals() {
         Goal first = new Goal("TestGoal", 0, 100);
         first.setId(1L);
         Goal second = new Goal("TestGoal2", 10, 200);
         second.setId(2L);
-        goals = Arrays.asList(first, second);
-    }
-
-    @Test
-    void getAllGoals() {
+        List<Goal> goals = Arrays.asList(first, second);
         when(repository.findAll(Sort.by("id"))).thenReturn(goals);
         List<GoalResponseDTO> result = service.getAllGoals();
 
@@ -64,9 +58,9 @@ class GoalServiceTest {
                 inputGoal.getCurrentAmount(),
                 inputGoal.getTarget());
         repoGoal.setId(5L);
-        when(repository.save(any(Goal.class))).thenReturn(repoGoal);
+        when(repository.save(any())).thenReturn(repoGoal);
         GoalResponseDTO response = service.addNewGoal(inputGoal);
-        verify(repository, times(1)).save(any());
+        verify(repository).save(any());
 
         assertEquals(inputGoal.getDescription(), response.getDescription());
         assertEquals(inputGoal.getTarget(), response.getTarget());
@@ -89,7 +83,7 @@ class GoalServiceTest {
         assertEquals(inputGoal.getDescription(), response.getDescription());
         assertEquals(inputGoal.getCurrentAmount(), response.getCurrentAmount());
         assertEquals(inputGoal.getTarget(), response.getTarget());
-        verify(repository, times(1)).setById(
+        verify(repository).setById(
                 id,
                 inputGoal.getDescription(),
                 inputGoal.getCurrentAmount(),
@@ -100,8 +94,9 @@ class GoalServiceTest {
     void setByIdWithInvalidId() {
         Long id = -1L;
         GoalRequestDTO inputGoal = new GoalRequestDTO("changed", 200, 300);
-        when(repository.setById(anyLong(), anyString(),anyInt(),anyInt())).thenReturn(0);
+        when(repository.setById(anyLong(), anyString(), anyInt(),anyInt())).thenReturn(0);
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        verify(repository).setById(id, inputGoal.getDescription(), inputGoal.getCurrentAmount(), inputGoal.getTarget());
         assertThrows(ResourceNotFoundException.class,  () -> service.setById(inputGoal, id));
     }
 
@@ -110,6 +105,6 @@ class GoalServiceTest {
     void deleteByID() {
         Long id = 1L;
         service.deleteByID(id);
-        verify(repository, times(1)).deleteById(id);
+        verify(repository).deleteById(id);
     }
 }

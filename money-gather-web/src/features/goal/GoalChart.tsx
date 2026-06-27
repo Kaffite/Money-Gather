@@ -1,5 +1,6 @@
 import {Doughnut} from "react-chartjs-2";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import {Chart as ChartJS, ArcElement, Tooltip} from 'chart.js';
+import Annotation from "chartjs-plugin-annotation";
 
 type ChartProps = {
     currentAmount: string,
@@ -10,27 +11,7 @@ type ChartProps = {
 
 function GoalChart({currentAmount, target, description, id}: ChartProps) {
     // Global Chart plugins
-    ChartJS.register(ArcElement, Tooltip, Legend);
-
-    // Custom plugin that allows placing
-    // text to the center of the doughnut
-    const centerTextPlugin = {
-        id: "centerTextPlugin",
-        beforeDraw: function (chart:ChartJS, _args, options) {
-            const width = chart.width,
-                height = chart.height,
-                ctx = chart.ctx;
-            ctx.restore();
-            const fontSize = (height / 230).toFixed(2);
-            ctx.font = fontSize + "em sans-serif";
-            ctx.textBaseline = "middle";
-            const text = options.text,
-                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 1.75;
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        }
-    }
+    ChartJS.register(ArcElement, Tooltip, Annotation);
 
     // Data of Doughnut Charts
     function getDoughnutData () {
@@ -46,17 +27,34 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
         }
     }
 
+    function getGoalProgressionPercentage(): string {
+        const percentage = Number(currentAmount) / Number(target) * 100;
+        return percentage.toFixed(2);
+    }
+
     return(<Doughnut
             key={id}
             data={getDoughnutData()}
             options={{
                 plugins: {
-                    centerTextPlugin: {
-                        text: description
+                    annotation: {
+                        annotations: {
+                            innerlabel: {
+                                type: 'doughnutLabel',
+                                display: true,
+                                drawTime: 'afterDraw',
+                                font: [{size: 22}, {size: 16, weight: 'bold'}],
+                                // TODO: Click -> Change inner text or sth
+                                click(context) {
+                                    console.log("click", context);
+                                },
+                                color: ['blue', 'black'],
+                                content: ({chart}) => [description, getGoalProgressionPercentage() +  '%'],
+                            }
+                        }
                     }
                 }
             }}
-            plugins={[centerTextPlugin]}
         />
     )
 }
