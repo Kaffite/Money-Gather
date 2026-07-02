@@ -31,9 +31,6 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     function updatecurrentAmount(e:React.ChangeEvent<HTMLInputElement>) {
         let value:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(value);
-        if (value > Number(buffer.target)) {
-            value = buffer.target;
-        }
         if (value < 0)
             value = 0
         if (typeIsNr) {
@@ -50,7 +47,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
         if (typeIsNr) {
             setBuffer(prevState => ({
                 ...prevState,
-                target: value
+                target: value,
             }))
         }
     }
@@ -59,8 +56,9 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     // These values are saved after exiting edit mode
     return(
         <div key={goal.id} className={style.goal_container}>
-            <div className={style.vertical_div + " " + style.dougnut_input_div}>
+            <div className={style.vertical_div + " " + style.dougnut_div}>
                 <GoalChart currentAmount={String(buffer.currentAmount)} target={String(buffer.target)} description={buffer.description} id={goal.id}/>
+                {/*<GoalInput editModeActive={editMode}></GoalInput>*/}
                 {editMode
                     ?
                     (<div className={style.input_div}>
@@ -88,9 +86,8 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
 
                     :
                     (<div className={style.input_div}>
-                        <h3>
-                            {(goal.currentAmount)} / {goal.target} €
-                        </h3>
+                        <h3>Current Amount: {(goal.currentAmount)}€ </h3>
+                        <h3>Target Amount: {goal.target}€ </h3>
                     </div>)}
             </div>
 

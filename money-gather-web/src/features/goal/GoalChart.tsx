@@ -1,6 +1,7 @@
 import {Doughnut} from "react-chartjs-2";
 import {Chart as ChartJS, ArcElement, Tooltip} from 'chart.js';
-import Annotation from "chartjs-plugin-annotation";
+import Annotation, {type PartialEventContext} from "chartjs-plugin-annotation";
+import {useState} from "react";
 
 type ChartProps = {
     currentAmount: string,
@@ -10,13 +11,19 @@ type ChartProps = {
 }
 
 function GoalChart({currentAmount, target, description, id}: ChartProps) {
+
+    const [showPercentage, setShowPercentage] = useState<boolean>(true);
     // Global Chart plugins
     ChartJS.register(ArcElement, Tooltip, Annotation);
 
     // Data of Doughnut Charts
     function getDoughnutData () {
-        const currentAsNr= Number(currentAmount);
-        const remaining = Number(target) - currentAsNr;
+        const currentAsNr:number= Number(currentAmount);
+        const targetAsNr:number = Number(target);
+        const remaining:number =
+            targetAsNr >= currentAsNr
+            ? targetAsNr - currentAsNr
+            : 0
         return {
             labels: ["Saved amount", "Remaining amount"],
             datasets: [{
@@ -29,13 +36,19 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
 
     function getGoalProgressionPercentage(): string {
         const percentage = Number(currentAmount) / Number(target) * 100;
-        return percentage.toFixed(2);
+        return percentage.toFixed(2) + "%";
     }
 
-    return(<Doughnut
+    function getGoalProgressionNumbers(): string {
+        return currentAmount + " / " + target + " €";
+    }
+
+    return(
+        <Doughnut
             key={id}
             data={getDoughnutData()}
             options={{
+                aspectRatio: 1.1,
                 plugins: {
                     annotation: {
                         annotations: {
@@ -43,13 +56,17 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
                                 type: 'doughnutLabel',
                                 display: true,
                                 drawTime: 'afterDraw',
-                                font: [{size: 22}, {size: 16, weight: 'bold'}],
-                                // TODO: Click -> Change inner text or sth
+                                font: [{size: 22}, {size: 18, weight: 'bold'}],
+                                // TODO: Click -> Change inner text
                                 click(context) {
-                                    console.log("click", context);
+                                    setShowPercentage(!showPercentage);
                                 },
-                                color: ['blue', 'black'],
-                                content: ({chart}) => [description, getGoalProgressionPercentage() +  '%'],
+                                color: ['#0160c9', 'black'],
+                                content: ({chart}):string[] => [description,
+                                    showPercentage
+                                        ? getGoalProgressionPercentage()
+                                        : getGoalProgressionNumbers()
+                                    ],
                             }
                         }
                     }

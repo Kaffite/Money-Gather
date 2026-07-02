@@ -1,8 +1,10 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, createContext, type Context} from "react";
 
 import GoalLayout from "./GoalLayout.tsx";
 import {fetchGoals, editGoal, addNewGoal, deleteGoal} from "./api/GoalAPI.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
+
+export const GoalContext:Context<GoalItem[]> = createContext();
 
 function BudgetController(){
     const [goals, setGoals] = useState<GoalItem[]>([]);
@@ -41,7 +43,11 @@ function BudgetController(){
         return <h1>Loading...</h1>
 
     return (
-            <GoalLayout goals={goals} onDelete={onDelete} onUpdate={onUpdate} addNewGoal={addGoal}/>
+        <>
+            <GoalContext value={goals}>
+                <GoalLayout  onDelete={onDelete} onUpdate={onUpdate} addNewGoal={addGoal}/>
+           </GoalContext>
+        </>
     );
 }
 

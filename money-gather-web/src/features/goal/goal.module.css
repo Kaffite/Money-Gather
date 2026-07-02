@@ -9,7 +9,7 @@
 .container{
     display: grid;
     grid-template-columns: auto auto;
-    gap: 2em;
+    gap: 3em;
     margin: 0 1em;
 }
 
@@ -20,7 +20,7 @@
     /*border: 1px solid;*/
 }
 
-.dougnut_input_div{
+.dougnut_div{
     margin-left: 2em;
 }
 
@@ -34,13 +34,13 @@
 }
 
 .btn_div{
-    margin-left: 1em;
-    margin-top: 6em;
+    margin-left: 2em;
+    margin-top: 5em;
 }
 
 .input_div{
     font-size: 20px;
-    padding: 10px 5px;
+    padding: 0.8em 0.4em;
 }
 
 .blue_btn{
