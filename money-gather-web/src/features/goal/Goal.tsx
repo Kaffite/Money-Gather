@@ -2,6 +2,8 @@ import GoalChart from "./GoalChart.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
 import {useState} from "react";
 import style from "./goal.module.css"
+import GoalInfo from "@/features/goal/GoalInfo.tsx";
+import GoalInput from "@/features/goal/GoalInput.tsx";
 
 type props = {
     goal:GoalItem
@@ -11,24 +13,24 @@ type props = {
 }
 
 function Goal ({goal, onDelete, onUpdate, index}: props) {
-    const [editMode, setEditMode] = useState<boolean>(false);
+    const [editModeActive, setEditModeActive] = useState<boolean>(false);
     const [buffer, setBuffer] = useState<GoalItem>(goal);
 
     const updateEditMode = () => {
         // If we exit edit mode, we want to save changes globally:
-        if (editMode)
+        if (editModeActive)
             onUpdate(index, buffer)
-        setEditMode(!editMode)
+        setEditModeActive(!editModeActive)
     }
 
-    function updateDescription(e:React.ChangeEvent<HTMLInputElement>) {
+    function updateDescription(e:React.ChangeEvent<HTMLInputElement>):void {
         setBuffer(prevState => ({
             ...prevState,
             description: e.target.value
         }))
     }
 
-    function updatecurrentAmount(e:React.ChangeEvent<HTMLInputElement>) {
+    function updatecurrentAmount(e:React.ChangeEvent<HTMLInputElement>):void {
         let value:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(value);
         if (value < 0)
@@ -41,7 +43,7 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
         }
     }
 
-    function updateTarget (e:React.ChangeEvent<HTMLInputElement>) {
+    function updateTarget (e:React.ChangeEvent<HTMLInputElement>):void {
         const value:number = Number(e.target.value);
         const typeIsNr:boolean = !Number.isNaN(value);
         if (typeIsNr) {
@@ -57,45 +59,31 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
     return(
         <div key={goal.id} className={style.goal_container}>
             <div className={style.vertical_div + " " + style.dougnut_div}>
-                <GoalChart currentAmount={String(buffer.currentAmount)} target={String(buffer.target)} description={buffer.description} id={goal.id}/>
-                {/*<GoalInput editModeActive={editMode}></GoalInput>*/}
-                {editMode
-                    ?
-                    (<div className={style.input_div}>
-                        <div>
-                            <input className={style.small_action}
-                                   value={(buffer.currentAmount)}
-                                   placeholder={"Saved Amount"}
-                                   onChange={event => updatecurrentAmount(event)}>
-                            </input>
-                            /
-                            <input className={style.small_action}
-                                   value={buffer.target}
-                                   placeholder={"Target Amount"}
-                                   onChange={event => updateTarget(event)}>
-                            </input>
-                            €
-                        </div>
-                        <input
-                            className={style.big_action}
-                            value={buffer.description}
-                            placeholder={`Name / Description`}
-                            onChange={event => updateDescription(event)}>
-                        </input>
-                    </div>)
-
-                    :
-                    (<div className={style.input_div}>
-                        <h3>Current Amount: {(goal.currentAmount)}€ </h3>
-                        <h3>Target Amount: {goal.target}€ </h3>
-                    </div>)}
+                <GoalChart
+                    currentAmount={String(buffer.currentAmount)}
+                    target={String(buffer.target)}
+                    description={buffer.description}
+                    id={goal.id}>
+                </GoalChart>
+                {editModeActive
+                    ? <GoalInput
+                        buffer={buffer}
+                        updatecurrentAmount={(e) => updatecurrentAmount(e)}
+                        updateTarget={(e) => updateTarget(e)}
+                        updateDescription={(e) => updateDescription(e)}>
+                      </GoalInput>
+                    : <GoalInfo
+                        currentAmount={goal.currentAmount}
+                        target={goal.target}>
+                      </GoalInfo>
+                }
             </div>
 
             <div className={style.btn_div + " " + style.vertical_div}>
                 <button className={style.small_action + " " + style.blue_btn + " " + style.action_btn}
-                    style={ editMode ?{backgroundColor: "green"} : {} }
+                    style={ editModeActive ?{backgroundColor: "green"} : {} }
                     onClick={() => updateEditMode()}>
-                        {editMode ? "Confirm" : "Edit"}
+                        {editModeActive ? "Confirm" : "Edit"}
                 </button>
                 <button className={style.small_action + " " + style.action_btn + " delete_btn"}
                         onClick={() => onDelete(goal)}>Delete

@@ -1,9 +1,13 @@
 .small_action{
     width: 100px;
+    height: 30px;
+    align-self: center;
 }
 
-.big_action{
+big_action{
     width: 225px;
+    height: 30px;
+    align-self: center;
 }
 
 .container{
@@ -11,6 +15,14 @@
     grid-template-columns: auto auto;
     gap: 3em;
     margin: 0 1em;
+}
+
+#currentAmountDiv{
+    gap: 0.5em;
+}
+
+#currentAmountSlider{
+    cursor: pointer;
 }
 
 .vertical_div{
@@ -38,7 +50,7 @@
     margin-top: 5em;
 }
 
-.input_div{
+#input_div{
     font-size: 20px;
     padding: 0.8em 0.4em;
 }

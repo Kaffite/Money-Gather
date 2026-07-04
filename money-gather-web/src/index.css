@@ -13,6 +13,11 @@ input{
     background: #CAF0F8;
 }
 
+.horizontalDiv{
+    display: flex;
+    flex-direction: row;
+}
+
 button{
     cursor: pointer;
 }

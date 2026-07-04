@@ -1,6 +1,6 @@
 import {Doughnut} from "react-chartjs-2";
 import {Chart as ChartJS, ArcElement, Tooltip} from 'chart.js';
-import Annotation, {type PartialEventContext} from "chartjs-plugin-annotation";
+import Annotation from "chartjs-plugin-annotation";
 import {useState} from "react";
 
 type ChartProps = {
@@ -48,6 +48,8 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
             key={id}
             data={getDoughnutData()}
             options={{
+               cutout: "55%",
+                borderWidth: 1,
                 aspectRatio: 1.1,
                 plugins: {
                     annotation: {
