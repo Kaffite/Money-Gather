@@ -16,6 +16,7 @@ public class Goal {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_seq")
     @SequenceGenerator(name = "invoice_seq", sequenceName = "invoice_sequence", allocationSize = 1)
     private Long id;
+    
     private String description;
     private int currentAmount;
     private int target;

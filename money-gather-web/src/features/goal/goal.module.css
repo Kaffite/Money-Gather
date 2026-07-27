@@ -4,7 +4,7 @@
     align-self: center;
 }
 
-big_action{
+.big_action{
     width: 225px;
     height: 30px;
     align-self: center;
@@ -34,6 +34,7 @@ big_action{
 
 .dougnut_div{
     margin-left: 2em;
+    width: 300px;
 }
 
 .goal_container{

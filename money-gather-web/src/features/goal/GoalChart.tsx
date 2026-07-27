@@ -46,11 +46,11 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
     return(
         <Doughnut
             key={id}
+            className={"doughnut"}
             data={getDoughnutData()}
             options={{
                cutout: "55%",
                 borderWidth: 1,
-                aspectRatio: 1.1,
                 plugins: {
                     annotation: {
                         annotations: {
@@ -59,7 +59,6 @@ function GoalChart({currentAmount, target, description, id}: ChartProps) {
                                 display: true,
                                 drawTime: 'afterDraw',
                                 font: [{size: 22}, {size: 18, weight: 'bold'}],
-                                // TODO: Click -> Change inner text
                                 click(context) {
                                     setShowPercentage(!showPercentage);
                                 },
