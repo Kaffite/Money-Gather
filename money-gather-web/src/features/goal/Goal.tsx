@@ -1,9 +1,10 @@
-import GoalChart from "./GoalChart.tsx";
+import GoalChart from "./components/GoalChart.tsx";
 import type {GoalItem} from "./types/GoalItem.tsx";
 import {useState} from "react";
 import style from "./goal.module.css"
-import GoalInfo from "@/features/goal/GoalInfo.tsx";
-import GoalInput from "@/features/goal/GoalInput.tsx";
+import GoalInfo from "./components/GoalInfo.tsx";
+import GoalInput from "./components/GoalInput.tsx";
+import GoalControls from "./components/GoalControls.tsx";
 
 type props = {
     goal:GoalItem
@@ -56,40 +57,44 @@ function Goal ({goal, onDelete, onUpdate, index}: props) {
 
     // In edit mode we use buffer values
     // These values are saved after exiting edit mode
+
+
     return(
-        <div key={goal.id} className={style.goal_container}>
-            <div className={style.vertical_div + " " + style.dougnut_div}>
-                <GoalChart
-                    currentAmount={String(buffer.currentAmount)}
-                    target={String(buffer.target)}
-                    description={buffer.description}
-                    id={goal.id}>
-                </GoalChart>
-                {editModeActive
-                    ? <GoalInput
-                        buffer={buffer}
-                        updatecurrentAmount={(e) => updatecurrentAmount(e)}
-                        updateTarget={(e) => updateTarget(e)}
-                        updateDescription={(e) => updateDescription(e)}>
-                      </GoalInput>
-                    : <GoalInfo
-                        currentAmount={goal.currentAmount}
-                        target={goal.target}>
-                      </GoalInfo>
-                }
+        <div className={style.goal_container}>
+
+            <div key={goal.id} className={style.goal_upper_container}>
+                    <GoalChart
+                        currentAmount={String(buffer.currentAmount)}
+                        target={String(buffer.target)}
+                        description={buffer.description}
+                        id={goal.id}>
+                    </GoalChart>
+
+                    <GoalControls
+                        editModeActive={editModeActive}
+                        goal={goal}
+                        onDelete={onDelete}
+                        updateEditMode={updateEditMode}>
+                    </GoalControls>
             </div>
 
-            <div className={style.btn_div + " " + style.vertical_div}>
-                <button className={style.small_action + " " + style.blue_btn + " " + style.action_btn}
-                    style={ editModeActive ?{backgroundColor: "green"} : {} }
-                    onClick={() => updateEditMode()}>
-                        {editModeActive ? "Confirm" : "Edit"}
-                </button>
-                <button className={style.small_action + " " + style.action_btn + " delete_btn"}
-                        onClick={() => onDelete(goal)}>Delete
-                </button>
-            </div>
-        </div>);
+        <div className={style.goal_input_container}>
+            {editModeActive
+                ? <GoalInput
+                    buffer={buffer}
+                    updatecurrentAmount={(e) => updatecurrentAmount(e)}
+                    updateTarget={(e) => updateTarget(e)}
+                    updateDescription={(e) => updateDescription(e)}>
+                </GoalInput>
+                : <GoalInfo
+                    currentAmount={goal.currentAmount}
+                    target={goal.target}>
+                </GoalInfo>
+            }
+        </div>
+
+        </div>
+    );
 }
 
 export default Goal;

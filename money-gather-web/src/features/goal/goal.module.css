@@ -14,7 +14,7 @@
     display: grid;
     grid-template-columns: auto auto;
     gap: 3em;
-    margin: 0 1em;
+    margin: 0 2em;
 }
 
 #currentAmountDiv{
@@ -34,16 +34,28 @@
 
 .dougnut_div{
     margin-left: 2em;
-    width: 300px;
+    width: 250px;
 }
 
-.goal_container{
+
+.goal_upper_container{
     display: flex;
+}
+
+.goal_input_container{
+    display: flex;
+    width: 80%;
+    margin: 1em auto;
+    justify-content: center;
+}
+
+
+.goal_container{
     background: #A7C7FA;
-    margin-top: 1em;
-    padding: 1em;
     border: 1px  solid;
+    margin-top: 1em;
     border-radius: 10px;
+    padding: 1em;
 }
 
 .btn_div{
